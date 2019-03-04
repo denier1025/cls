@@ -1,0 +1,37 @@
+.mobile {
+
+}
+
+@media (min-width: 1024px) {
+    .app-header_l_l_short,
+    .side-nav_l_short {
+        display: block !important;
+    }
+
+    .app-header_l_l_long,
+    .side-nav_l_long {
+        display: none !important;
+    }
+
+    .side-nav {
+        display: none !important;
+    }
+
+    .side-nav_backdrop {
+        display: block !important;
+    }
+
+    .side-nav_header {
+        background-color: rgb(30, 30, 30) !important;
+        border-bottom: 1px solid #494949 !important;
+    }
+
+    .side-nav-scrollbar {
+        height: calc(100vh - 57px) !important;
+    }
+
+    .content-container {
+        left: 0 !important;
+        width: 100vw !important;
+    }
+}

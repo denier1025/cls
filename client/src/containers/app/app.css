@@ -1,0 +1,153 @@
+@font-face {
+  font-family: "Roboto";
+  src: url("./fonts/roboto/roboto-thin.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 100;
+}
+
+@font-face {
+  font-family: "Roboto";
+  src: url("./fonts/roboto/roboto-thin-italic.ttf") format("truetype");
+  font-style: italic;
+  font-weight: 100;
+}
+
+@font-face {
+  font-family: "Roboto";
+  src: url("./fonts/roboto/roboto-light.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: "Roboto";
+  src: url("./fonts/roboto/roboto-light-italic.ttf") format("truetype");
+  font-style: italic;
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: "Roboto";
+  src: url("./fonts/roboto/roboto-regular.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Roboto";
+  src: url("./fonts/roboto/roboto-italic.ttf") format("truetype");
+  font-style: italic;
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Roboto";
+  src: url("./fonts/roboto/roboto-medium.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: "Roboto";
+  src: url("./fonts/roboto/roboto-medium-italic.ttf") format("truetype");
+  font-style: italic;
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: "Roboto";
+  src: url("./fonts/roboto/roboto-bold.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: "Roboto";
+  src: url("./fonts/roboto/roboto-bold-italic.ttf") format("truetype");
+  font-style: italic;
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: "Roboto";
+  src: url("./fonts/roboto/roboto-black.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 900;
+}
+
+@font-face {
+  font-family: "Roboto";
+  src: url("./fonts/roboto/roboto-black-italic.ttf") format("truetype");
+  font-style: italic;
+  font-weight: 900;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.app-container {
+  font-family: "Roboto", sans-serif;
+  font-size: 14.4px;
+  font-style: normal;
+  font-weight: 400;
+  background-color: rgb(25, 25, 25);
+  color: rgb(163, 163, 163);
+  width: 100vw;
+  min-width: 320px;
+  height: 100vh;
+  position: fixed;
+  z-index: 10;
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+                                          supported by Chrome and Opera */
+}
+
+.text-dimension {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* Single props starts */
+
+.display_none {
+  display: none !important;
+}
+
+.display_block {
+  display: block !important;
+}
+
+.left_0px {
+  left: 0px !important;
+}
+
+.left_240px {
+  left: 240px !important;
+}
+
+.width_100vw {
+  width: 100vw !important;
+}
+
+.width_calc100vw-240px {
+  width: calc(100vw - 240px) !important;
+}
+
+.background-color_none {
+  background-color: none !important;
+}
+
+.background-color_rgba11111111105 {
+  background-color: rgba(111, 111, 111, 0.5) !important;
+}
+
+/* Single props ends */

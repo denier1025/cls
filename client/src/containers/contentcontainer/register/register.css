@@ -1,0 +1,194 @@
+.register-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  min-width: 320px;
+  padding: 56px 0;
+}
+
+.register-page {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  width: 320px;
+  height: 400px;
+}
+
+.register-page_form {
+  padding: 0 16px;
+}
+
+.register-page_f_i18n-username,
+.register-page_f_i18n-email,
+.register-page_f_i18n-password {
+  font-size: 12.8px;
+}
+
+.register-page_f_username-block,
+.register-page_f_email-block,
+.register-page_f_password-block {
+  display: flex;
+  border-bottom: 1px solid rgb(77, 77, 77);
+}
+
+.register-page_f_username-field,
+.register-page_f_email-field,
+.register-page_f_password-field {
+  background: transparent;
+  border: none;
+  font: inherit;
+  color: #ccc;
+  width: 100%;
+  margin-top: 8px;
+  padding: 4.8px 8px;
+  outline: none;
+}
+
+.register-page_f_i18n-username-check-button,
+.register-page_f_i18n-email-check-button {
+  margin: auto 6px;
+  padding: 5px;
+  border-radius: 5%;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 12.8px;
+  background-color: rgb(101, 101, 101);
+  color: rgb(25, 25, 25);
+}
+
+.register-page_f_username-check-icon,
+.register-page_f_email-check-icon,
+.register-page_f_username-cross-icon,
+.register-page_f_email-cross-icon {
+  display: none;
+  margin: 4.8px 16px;
+}
+
+.register-page_f_feedback-bar {
+  height: 16px;
+}
+
+.register-page_f_fb_username,
+.register-page_f_fb_email,
+.register-page_f_fb_password {
+  visibility: hidden;
+  margin-top: 1px;
+  margin-left: 14.4px;
+  padding: 0 4px;
+  color: white;
+  font-size: 12.8px;
+}
+
+.register-page_f_eye-button {
+  height: 32px;
+  margin: 0 12px;
+  cursor: pointer;
+}
+
+.register-page_f_opened-eye-icon {
+  display: none;
+}
+
+.register-page_f_closed-eye-icon {
+}
+
+.register-page_f_submit-block {
+  text-align: center;
+}
+
+.register-page_f_i18n-submit-signup-button {
+  display: inline-block;
+  background-color: rgb(15, 66, 133);
+  color: #ccc;
+  font-weight: bold;
+  width: 50%;
+  margin-top: 25.6px;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.register-page_terms-privacy-cookie-policies {
+  font-size: 12.8px;
+  padding: 0 16px;
+  text-align: justify;
+}
+
+.register-page_i18n-terms-of-service,
+.register-page_i18n-privacy-policy,
+.register-page_i18n-cookie-policy {
+  text-decoration: none;
+  color: rgb(52, 140, 255);
+}
+
+.register-page_tpcp_i18n-first,
+.register-page_tpcp_i18n-second,
+.register-page_tpcp_i18n-third,
+.register-page_tpcp_i18n-fourth {
+}
+
+.register-page_f_to-signin-block {
+  display: inline-block;
+  text-align: center;
+}
+
+.register-page_f_tsb_i18n-ahaa {
+}
+
+.register-page_f_tsb_i18n-signin-button {
+  text-decoration: none;
+  color: rgb(0, 110, 255);
+  margin-left: 8px;
+  cursor: pointer;
+}
+
+/* effects start */
+
+.register-check-button:hover {
+  background-color: rgb(121, 121, 121);
+}
+
+.register-check-button:active {
+  background-color: rgb(149, 149, 149);
+}
+
+.register-page_f_opened-eye-icon:hover,
+.register-page_f_closed-eye-icon:hover {
+  fill: rgb(204, 204, 204);
+}
+
+.register-page_f_opened-eye-icon:active,
+.register-page_f_closed-eye-icon:active {
+  fill: white;
+}
+
+.register-page_f_i18n-submit-signup-button:hover {
+    background-color: rgb(19, 80, 158);
+}
+
+.register-page_f_i18n-submit-signup-button:active {
+    color: white;
+}
+
+.register-page_i18n-terms-of-service:hover,
+.register-page_i18n-privacy-policy:hover,
+.register-page_i18n-cookie-policy:hover {
+    color: rgb(106, 170, 255);
+}
+
+.register-page_i18n-terms-of-service:active,
+.register-page_i18n-privacy-policy:active,
+.register-page_i18n-cookie-policy:active {
+    font-weight: bold;
+}
+
+.register-page_f_tsb_i18n-signin-button:hover {
+    color: rgb(52, 140, 255);
+}
+
+.register-page_f_tsb_i18n-signin-button:active {
+    font-weight: bold;
+}
+
+/* effects end */

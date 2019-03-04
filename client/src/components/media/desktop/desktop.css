@@ -1,0 +1,37 @@
+.desktop {
+
+}
+
+@media (min-width: 1024px) {
+    .app-header_l_l_short,
+    .side-nav_l_short {
+        display: none !important;
+    }
+
+    .app-header_l_l_long,
+    .side-nav_l_long {
+        display: flex !important;
+    }
+
+    .side-nav {
+        display: block !important;
+    }
+
+    .side-nav_backdrop {
+        display: none !important;
+    }
+
+    .side-nav_header {
+        background-color: rgb(37, 37, 37) !important;
+        border-bottom: none !important;
+    }
+
+    .side-nav-scrollbar {
+        height: calc(100vh - 56px) !important;
+    }
+
+    .content-container {
+        left: 240px !important;
+        width: calc(100vw - 240px) !important;
+    }
+}

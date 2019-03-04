@@ -1,0 +1,210 @@
+.login-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  min-width: 320px;
+  padding: 56px 0;
+}
+
+.login-page {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  width: 320px;
+  height: 400px;
+}
+
+.login-page_form {
+  padding: 0 16px;
+}
+
+.login-page_f_i18n-email,
+.login-page_f_i18n-password {
+  font-size: 12.8px;
+}
+
+.login-page_f_email-block,
+.login-page_f_password-block {
+  display: flex;
+  border-bottom: 1px solid rgb(77, 77, 77);
+}
+
+.login-page_f_email-field,
+.login-page_f_password-field {
+  background: transparent;
+  border: none;
+  font: inherit;
+  color: #ccc;
+  width: 100%;
+  margin-top: 8px;
+  padding: 4.8px 8px;
+  outline: none;
+}
+
+.login-page_f_feedback-bar,
+.login-page_f_rbe_f_feedback-bar {
+  height: 16px;
+}
+
+.login-page_f_fb_email,
+.login-page_f_fb_password,
+.login-page_f_rbe_f_fb_recovery {
+  visibility: hidden;
+  margin-top: 1px;
+  margin-left: 14.4px;
+  padding: 0 4px;
+  color: white;
+  font-size: 12.8px;
+}
+
+.login-page_f_eye-button {
+  height: 32px;
+  margin: 0 12px;
+  cursor: pointer;
+}
+
+.login-page_f_opened-eye-icon {
+  display: none;
+}
+
+.login-page_f_closed-eye-icon {
+}
+
+.login-page_f_feedback-bar-forgot-block {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+
+.login-page_f_forgot-container {
+  position: relative;
+}
+
+.login-page_f_i18n-forgot {
+  font-size: 12.8px;
+  margin-top: 6px;
+  margin-right: 7.2px;
+  cursor: pointer;
+}
+
+/* recovery block starts */
+
+.login-page_f_recovery-by-email {
+  display: none;
+  position: absolute;
+  top: 24px;
+  left: -240px;
+  width: 288px;
+  background-color: rgb(37, 37, 37);
+  border: 1px solid rgb(77, 77, 77);
+  padding: 8px;
+}
+
+.login-page_f_rbe_i18n-description {
+  font-size: 12.8px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.login-page_f_rbe_form {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  margin-top: 14.4px;
+}
+
+.login-page_f_rbe_f_email-field {
+  background: transparent;
+  border: none;
+  color: #ccc;
+  font: inherit;
+  border-bottom: 1px solid rgb(77, 77, 77);
+  padding: 4.8px 8px;
+  outline: none;
+}
+
+.login-page_f_rbe_f_i18n-submit-recovery-button {
+  background-color: rgb(15, 66, 133);
+  color: #ccc;
+  font-size: 12.8px;
+  font-weight: bold;
+  padding: 8px;
+  cursor: pointer;
+}
+
+/* recovery block ends */
+
+.login-page_f_submit-block {
+  text-align: center;
+}
+
+.login-page_f_i18n-submit-signin-button {
+  display: inline-block;
+  background-color: rgb(15, 66, 133);
+  color: #ccc;
+  font-weight: bold;
+  width: 50%;
+  margin-top: 25.6px;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.login-page_f_to-signup-block {
+  display: inline-block;
+  text-align: center;
+}
+
+.login-page_f_tsb_i18n-dthaa {
+}
+
+.login-page_f_tsb_i18n-signup-button {
+  text-decoration: none;
+  color: rgb(0, 110, 255);
+  margin-left: 8px;
+  cursor: pointer;
+}
+
+.login-page_f_rbe_f_email-field:focus {
+  border-bottom: 1px solid rgb(52, 140, 255);
+}
+
+/* effects start */
+
+.login-page_f_opened-eye-icon:hover,
+.login-page_f_closed-eye-icon:hover {
+  fill: rgb(204, 204, 204);
+}
+
+.login-page_f_opened-eye-icon:active,
+.login-page_f_closed-eye-icon:active {
+  fill: white;
+}
+
+.login-page_f_i18n-forgot:hover {
+    color: rgb(204, 204, 204);
+}
+
+.login-page_f_i18n-forgot:active {
+    font-weight: bold;
+}
+
+.login-page_f_i18n-submit-signin-button:hover {
+    background-color: rgb(19, 80, 158);
+}
+
+.login-page_f_i18n-submit-signin-button:active {
+    color: white;
+}
+
+.login-page_f_tsb_i18n-signup-button:hover {
+    color: rgb(52, 140, 255);
+}
+
+.login-page_f_tsb_i18n-signup-button:active {
+    font-weight: bold;
+}
+
+/* effects end */

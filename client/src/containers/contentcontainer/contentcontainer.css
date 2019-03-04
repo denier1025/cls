@@ -1,0 +1,13 @@
+.content-container {
+    position: absolute;
+    left: 0;
+    top: 56px;
+    z-index: 20;
+    width: 100vw;
+    min-width: 320px;
+    height: calc(100vh - 56px);
+}
+
+.content-children {
+    
+}

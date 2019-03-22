@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "axios": "^0.18.0",
+    "classnames": "^2.2.6",
+    "http-proxy-middleware": "^0.19.1",
+    "jquery": "^3.3.1",
     "overlayscrollbars": "^1.6.3",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",

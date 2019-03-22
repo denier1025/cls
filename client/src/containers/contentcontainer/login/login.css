@@ -1,11 +1,136 @@
 .login-container {
+  position: relative;
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: center;
-  min-width: 320px;
   padding: 56px 0;
 }
+
+.login-container_backdrop {
+  display: none;
+  position: absolute;
+  background-color: rgba(25, 25, 25, 0.7);
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: calc(100vh - 56px);
+  z-index: 10;
+}
+
+/* recovery block starts */
+
+.login-container_recovery-by-email {
+  display: none;
+  position: absolute;
+  top: 208px;
+  left: calc(100% / 2 - 144px);
+  width: 288px;
+  background-color: rgb(37, 37, 37);
+  border: 1px solid rgb(77, 77, 77);
+  padding-top: 8px;
+  z-index: 20;
+}
+
+.login-container_rbe_header {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
+.login-container_rbe_back-button {
+  margin: 4px;
+  height: 23px;
+  width: 40px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.login-container_rbe_back-icon {
+
+}
+
+.login-container_rbe_i18n-description {
+  padding: 8px;
+  font-size: 12.8px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.login-container_rbe_form {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  padding: 8px;
+  padding-bottom: 0;
+}
+
+.login-container_rbe_f_first-part {
+
+}
+
+.login-container_f_i18n-email {
+  font-size: 11.2px;
+  padding-bottom: 3.6px;
+}
+
+.login-container_rbe_f_email {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  border-bottom: 1px solid rgb(77, 77, 77);
+}
+
+.login-container_rbe_f_email-field {
+  background: transparent;
+  border: none;
+  font: inherit;
+  color: #ccc;
+  padding: 7.8px 8px 4.8px;
+  outline: none;
+}
+
+.login-container_rbe_f_feedback-bar {
+  height: 16px;
+}
+
+.login-container_rbe_f_fb_recovery {
+  margin-top: 1px;
+  margin-left: 14.4px;
+  padding: 0 4px;
+  color: rgb(163, 163, 163);
+  font-size: 11.2px;
+}
+
+.login-container_rbe_f_second-part {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+}
+
+.login-container_rbe_f_i18n-submit-recovery-button {
+  background-color: rgb(15, 66, 133);
+  border: none;
+  color: #ccc;
+  font-size: 12.8px;
+  font-weight: bold;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.login-container_rbe_f_i18n-submit-recovery-button[disabled] {
+  background-color: rgb(65, 65, 65);
+  border: none;
+  color: rgb(37, 37, 37);
+  font-size: 12.8px;
+  font-weight: bold;
+  padding: 8px;
+  cursor: not-allowed;
+}
+
+/* recovery block ends */
 
 .login-page {
   display: flex;
@@ -22,11 +147,11 @@
 
 .login-page_f_i18n-email,
 .login-page_f_i18n-password {
-  font-size: 12.8px;
+  font-size: 11.2px;
 }
 
-.login-page_f_email-block,
-.login-page_f_password-block {
+.login-page_f_email,
+.login-page_f_password {
   display: flex;
   border-bottom: 1px solid rgb(77, 77, 77);
 }
@@ -38,8 +163,7 @@
   font: inherit;
   color: #ccc;
   width: 100%;
-  margin-top: 8px;
-  padding: 4.8px 8px;
+  padding: 12.8px 8px 4.8px;
   outline: none;
 }
 
@@ -49,19 +173,17 @@
 }
 
 .login-page_f_fb_email,
-.login-page_f_fb_password,
-.login-page_f_rbe_f_fb_recovery {
-  visibility: hidden;
+.login-page_f_fb_password {
   margin-top: 1px;
   margin-left: 14.4px;
   padding: 0 4px;
-  color: white;
-  font-size: 12.8px;
+  color: rgb(163, 163, 163);
+  font-size: 11.2px;
 }
 
 .login-page_f_eye-button {
   height: 32px;
-  margin: 0 12px;
+  margin: auto 12px;
   cursor: pointer;
 }
 
@@ -79,10 +201,6 @@
   justify-content: space-between;
 }
 
-.login-page_f_forgot-container {
-  position: relative;
-}
-
 .login-page_f_i18n-forgot {
   font-size: 12.8px;
   margin-top: 6px;
@@ -90,66 +208,31 @@
   cursor: pointer;
 }
 
-/* recovery block starts */
-
-.login-page_f_recovery-by-email {
-  display: none;
-  position: absolute;
-  top: 24px;
-  left: -240px;
-  width: 288px;
-  background-color: rgb(37, 37, 37);
-  border: 1px solid rgb(77, 77, 77);
-  padding: 8px;
-}
-
-.login-page_f_rbe_i18n-description {
-  font-size: 12.8px;
-  font-weight: bold;
-  text-align: center;
-}
-
-.login-page_f_rbe_form {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  margin-top: 14.4px;
-}
-
-.login-page_f_rbe_f_email-field {
-  background: transparent;
-  border: none;
-  color: #ccc;
-  font: inherit;
-  border-bottom: 1px solid rgb(77, 77, 77);
-  padding: 4.8px 8px;
-  outline: none;
-}
-
-.login-page_f_rbe_f_i18n-submit-recovery-button {
-  background-color: rgb(15, 66, 133);
-  color: #ccc;
-  font-size: 12.8px;
-  font-weight: bold;
-  padding: 8px;
-  cursor: pointer;
-}
-
-/* recovery block ends */
-
 .login-page_f_submit-block {
   text-align: center;
+  margin-top: 25.6px;
 }
 
 .login-page_f_i18n-submit-signin-button {
   display: inline-block;
   background-color: rgb(15, 66, 133);
+  border: none;
   color: #ccc;
   font-weight: bold;
   width: 50%;
-  margin-top: 25.6px;
   padding: 8px;
   cursor: pointer;
+}
+
+.login-page_f_i18n-submit-signin-button[disabled] {
+  display: inline-block;
+  background-color: rgb(65, 65, 65);
+  border: none;
+  color: rgb(25, 25, 25);
+  font-weight: bold;
+  width: 50%;
+  padding: 8px;
+  cursor: not-allowed;
 }
 
 .login-page_f_to-signup-block {
@@ -167,44 +250,67 @@
   cursor: pointer;
 }
 
-.login-page_f_rbe_f_email-field:focus {
-  border-bottom: 1px solid rgb(52, 140, 255);
-}
-
 /* effects start */
 
+.login-container_rbe_f_i18n-submit-recovery-button,
+.login-page_f_i18n-submit-signin-button:focus {
+  outline: none;
+}
+
+.login-container_rbe_f_i18n-submit-recovery-button:hover {
+  background-color: rgb(19, 80, 158);
+}
+
+.login-container_rbe_f_i18n-submit-recovery-button:active {
+  color: white;
+}
+
+.login-container_rbe_f_i18n-submit-recovery-button[disabled]:hover,
+.login-container_rbe_f_i18n-submit-recovery-button[disabled]:active {
+  background-color: rgb(65, 65, 65);
+  color: rgb(37, 37, 37);
+}
+
 .login-page_f_opened-eye-icon:hover,
-.login-page_f_closed-eye-icon:hover {
+.login-page_f_opened-eye-icon:active,
+.login-page_f_closed-eye-icon:hover,
+.login-page_f_closed-eye-icon:active {
   fill: rgb(204, 204, 204);
 }
 
-.login-page_f_opened-eye-icon:active,
-.login-page_f_closed-eye-icon:active {
-  fill: white;
-}
-
 .login-page_f_i18n-forgot:hover {
-    color: rgb(204, 204, 204);
+  color: rgb(204, 204, 204);
 }
 
 .login-page_f_i18n-forgot:active {
-    font-weight: bold;
+  font-weight: bold;
+}
+
+.login-container_rbe_back-icon:hover,
+.login-container_rbe_back-icon:active {
+  fill: white;
 }
 
 .login-page_f_i18n-submit-signin-button:hover {
-    background-color: rgb(19, 80, 158);
+  background-color: rgb(19, 80, 158);
 }
 
 .login-page_f_i18n-submit-signin-button:active {
-    color: white;
+  color: white;
+}
+
+.login-page_f_i18n-submit-signin-button[disabled]:hover,
+.login-page_f_i18n-submit-signin-button[disabled]:active {
+  background-color: rgb(65, 65, 65);
+  color: rgb(25, 25, 25);
 }
 
 .login-page_f_tsb_i18n-signup-button:hover {
-    color: rgb(52, 140, 255);
+  color: rgb(52, 140, 255);
 }
 
 .login-page_f_tsb_i18n-signup-button:active {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 /* effects end */

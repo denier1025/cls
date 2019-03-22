@@ -3,7 +3,6 @@
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: center;
-  min-width: 320px;
   padding: 56px 0;
 }
 
@@ -23,12 +22,12 @@
 .register-page_f_i18n-username,
 .register-page_f_i18n-email,
 .register-page_f_i18n-password {
-  font-size: 12.8px;
+  font-size: 11.2px;
 }
 
-.register-page_f_username-block,
-.register-page_f_email-block,
-.register-page_f_password-block {
+.register-page_f_username,
+.register-page_f_email,
+.register-page_f_password {
   display: flex;
   border-bottom: 1px solid rgb(77, 77, 77);
 }
@@ -41,29 +40,31 @@
   font: inherit;
   color: #ccc;
   width: 100%;
-  margin-top: 8px;
-  padding: 4.8px 8px;
+  padding: 12.8px 8px 4.8px;
   outline: none;
 }
 
-.register-page_f_i18n-username-check-button,
-.register-page_f_i18n-email-check-button {
-  margin: auto 6px;
+.register-page_f_i18n-username-check-button {
+  margin: auto 6px 2.594px;
   padding: 5px;
-  border-radius: 5%;
   cursor: pointer;
   font-weight: bold;
   font-size: 12.8px;
-  background-color: rgb(101, 101, 101);
-  color: rgb(25, 25, 25);
+  background-color: rgb(15, 66, 133);
+  border: none;
+  color: #ccc;
 }
 
-.register-page_f_username-check-icon,
-.register-page_f_email-check-icon,
-.register-page_f_username-cross-icon,
-.register-page_f_email-cross-icon {
-  display: none;
-  margin: 4.8px 16px;
+.register-page_f_i18n-username-check-button[disabled] {
+  margin: auto 6px 2.594px;
+  padding: 5px;
+  border-radius: 5%;
+  cursor: not-allowed;
+  font-weight: bold;
+  font-size: 12.8px;
+  background-color: rgb(65, 65, 65);
+  border: none;
+  color: rgb(25, 25, 25);
 }
 
 .register-page_f_feedback-bar {
@@ -73,17 +74,16 @@
 .register-page_f_fb_username,
 .register-page_f_fb_email,
 .register-page_f_fb_password {
-  visibility: hidden;
   margin-top: 1px;
   margin-left: 14.4px;
   padding: 0 4px;
-  color: white;
-  font-size: 12.8px;
+  color: rgb(163, 163, 163);
+  font-size: 11.2px;
 }
 
 .register-page_f_eye-button {
   height: 32px;
-  margin: 0 12px;
+  margin: auto 12px;
   cursor: pointer;
 }
 
@@ -95,18 +95,30 @@
 }
 
 .register-page_f_submit-block {
+  margin-top: 25.6px;
   text-align: center;
 }
 
 .register-page_f_i18n-submit-signup-button {
   display: inline-block;
   background-color: rgb(15, 66, 133);
+  border: none;
   color: #ccc;
   font-weight: bold;
   width: 50%;
-  margin-top: 25.6px;
   padding: 8px;
   cursor: pointer;
+}
+
+.register-page_f_i18n-submit-signup-button[disabled] {
+  display: inline-block;
+  background-color: rgb(65, 65, 65);
+  border: none;
+  color: rgb(25, 25, 25);
+  font-weight: bold;
+  width: 50%;
+  padding: 8px;
+  cursor: not-allowed;
 }
 
 .register-page_terms-privacy-cookie-policies {
@@ -145,22 +157,29 @@
 
 /* effects start */
 
+.register-page_f_i18n-username-check-button:focus,
+.register-page_f_i18n-submit-signup-button:focus {
+  outline: none;
+}
+
 .register-check-button:hover {
-  background-color: rgb(121, 121, 121);
+  background-color: rgb(19, 80, 158);
 }
 
 .register-check-button:active {
-  background-color: rgb(149, 149, 149);
+  color: white;
+}
+
+.register-page_f_i18n-username-check-button[disabled]:hover,
+.register-page_f_i18n-username-check-button[disabled]:active {
+  background-color: rgb(65, 65, 65);
 }
 
 .register-page_f_opened-eye-icon:hover,
-.register-page_f_closed-eye-icon:hover {
-  fill: rgb(204, 204, 204);
-}
-
 .register-page_f_opened-eye-icon:active,
+.register-page_f_closed-eye-icon:hover,
 .register-page_f_closed-eye-icon:active {
-  fill: white;
+  fill: rgb(204, 204, 204);
 }
 
 .register-page_f_i18n-submit-signup-button:hover {
@@ -169,6 +188,12 @@
 
 .register-page_f_i18n-submit-signup-button:active {
     color: white;
+}
+
+.register-page_f_i18n-submit-signup-button[disabled]:hover,
+.register-page_f_i18n-submit-signup-button[disabled]:active {
+  background-color: rgb(65, 65, 65);
+  color: rgb(25, 25, 25);
 }
 
 .register-page_i18n-terms-of-service:hover,

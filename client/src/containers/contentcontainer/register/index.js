@@ -1,111 +1,255 @@
 import React, { Component } from "react";
-import "./register.css";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import "./register.css";
+import $ from "jquery";
+import classnames from "classnames";
 
 export default class Register extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: {
+        name: ""
+      },
+      email: "",
+      password: "",
+      success: {
+        username: ""
+      },
+      errors: {
+        username: "",
+        email: "",
+        password: ""
+      }
+    };
+  }
+
+  onInputChange = e => {
+    if (e.target.name === "username") {
+      this.setState({
+        username: {
+          name: e.target.value
+        }
+      });
+    } else if (e.target.name === "email") {
+      this.setState({
+        email: e.target.value
+      });
+    } else if (e.target.name === "password") {
+      this.setState({
+        password: e.target.value
+      });
+    }
+  };
+
+  onInputFocus = e => {
+    this.setState({
+      success: {
+        ...this.state.success,
+        [e.target.name]: ""
+      },
+      errors: {
+        ...this.state.errors,
+        [e.target.name]: ""
+      }
+    });
+  };
+
+  onInputBlur = e => {
+    // TODO: validation
+    this.setState(this.state); // TODO: will be deleted
+  };
+
+  onUCheck = () => {
+    const userData = {
+      username: {
+        name: this.state.username.name
+      }
+    };
+
+    axios
+      .post("/api/register/ucheck", userData)
+      .then(res =>
+        this.setState({
+          success: {
+            ...this.state.success,
+            username: res.data.username
+          }
+        })
+      )
+      .catch(err =>
+        this.setState({
+          errors: {
+            ...this.state.errors,
+            username: err.response.data.username
+          }
+        })
+      );
+  };
+
+  onTogglePasswordVisability = () => {
+    if ($(".register-page_f_eye-button").attr("datatoggle") === "false") {
+      $(".register-page_f_password-field").attr("type", "text");
+      $(".register-page_f_closed-eye-icon").addClass("display_none");
+      $(".register-page_f_opened-eye-icon").addClass("display_block");
+      $(".register-page_f_eye-button").attr("datatoggle", "true");
+    } else {
+      $(".register-page_f_password-field").attr("type", "password");
+      $(".register-page_f_closed-eye-icon").removeClass("display_none");
+      $(".register-page_f_opened-eye-icon").removeClass("display_block");
+      $(".register-page_f_eye-button").attr("datatoggle", "false");
+    }
+  };
+
+  onSignup = () => {
+    const userData = {
+      username: {
+        name: this.state.username.name
+      },
+      email: this.state.email,
+      password: this.state.password
+    };
+    axios
+      .post("/api/register", userData)
+      .then(res => console.log(res.data))
+      .catch(err => this.setState({ errors: err.response.data }));
+  };
+
+  componentDidUpdate() {
+    const { username, email, password } = this.state.errors;
+    if (username || email || password) {
+      $("#signup-button").attr("disabled", "");
+    } else {
+      $("#signup-button").removeAttr("disabled");
+    }
+    if (username || this.state.success.username) {
+      $(".register-page_f_i18n-username-check-button").attr("disabled", "");
+    } else {
+      $(".register-page_f_i18n-username-check-button").removeAttr("disabled");
+    }
+  }
+
   render() {
     return (
       <div className="register-container noselect">
         <div className="register-page">
           <div className="register-page_form">
             <label
-              htmlFor="register-page_f_username-field"
-              className="register-page_f_i18n-username"
+              htmlFor="register-page_f_username"
+              className={classnames("register-page_f_i18n-username", {
+                color_white: $(".register-page_f_username-field").is(":focus")
+              })}
             >
-              Display Name
+              Username (display name)
             </label>
-            <div className="register-page_f_username-block">
+            <div
+              className={classnames("register-page_f_username", {
+                "border-bottom_white": $(".register-page_f_username-field").is(
+                  ":focus"
+                ),
+                "border-bottom_rgb16300": this.state.errors.username,
+                "border-bottom_rgb52140255": this.state.success.username
+              })}
+            >
               <input
                 type="text"
-                id="register-page_f_username-field"
+                autoComplete="off"
+                id="register-page_f_username"
                 className="register-page_f_username-field"
-                name="cls-username"
+                name="username"
+                value={this.state.username.name}
+                onChange={e => this.onInputChange(e)}
+                onFocus={e => this.onInputFocus(e)}
+                onBlur={e => this.onInputBlur(e)}
               />
-              <div className="register-check-button register-page_f_i18n-username-check-button">
+              <button
+                className="register-check-button register-page_f_i18n-username-check-button"
+                onClick={this.onUCheck}
+              >
                 check
-              </div>
-              <svg
-                viewBox="0 0 44 44"
-                width="24px"
-                height="24px"
-                className="register-page_f_username-check-icon"
-              >
-                <path
-                  d="m22,0c-12.2,0-22,9.8-22,22s9.8,22 22,22 22-9.8 22-22-9.8-22-22-22zm12.7,15.1l0,0-16,16.6c-0.2,0.2-0.4,0.3-0.7,0.3-0.3,0-0.6-0.1-0.7-0.3l-7.8-8.4-.2-.2c-0.2-0.2-0.3-0.5-0.3-0.7s0.1-0.5 0.3-0.7l1.4-1.4c0.4-0.4 1-0.4 1.4,0l.1,.1 5.5,5.9c0.2,0.2 0.5,0.2 0.7,0l13.4-13.9h0.1c0.4-0.4 1-0.4 1.4,0l1.4,1.4c0.4,0.3 0.4,0.9 0,1.3z"
-                  fill="rgb(52, 140, 255)"
-                />
-              </svg>
-              <svg
-                viewBox="0 0 44 44"
-                width="24px"
-                height="24px"
-                className="register-page_f_username-cross-icon"
-              >
-                <path
-                  d="m22,0c-12.2,0-22,9.8-22,22s9.8,22 22,22 22-9.8 22-22-9.8-22-22-22zm3.2,22.4l7.5,7.5c0.2,0.2 0.3,0.5 0.3,0.7s-0.1,0.5-0.3,0.7l-1.4,1.4c-0.2,0.2-0.5,0.3-0.7,0.3-0.3,0-0.5-0.1-0.7-0.3l-7.5-7.5c-0.2-0.2-0.5-0.2-0.7,0l-7.5,7.5c-0.2,0.2-0.5,0.3-0.7,0.3-0.3,0-0.5-0.1-0.7-0.3l-1.4-1.4c-0.2-0.2-0.3-0.5-0.3-0.7s0.1-0.5 0.3-0.7l7.5-7.5c0.2-0.2 0.2-0.5 0-0.7l-7.5-7.5c-0.2-0.2-0.3-0.5-0.3-0.7s0.1-0.5 0.3-0.7l1.4-1.4c0.2-0.2 0.5-0.3 0.7-0.3s0.5,0.1 0.7,0.3l7.5,7.5c0.2,0.2 0.5,0.2 0.7,0l7.5-7.5c0.2-0.2 0.5-0.3 0.7-0.3 0.3,0 0.5,0.1 0.7,0.3l1.4,1.4c0.2,0.2 0.3,0.5 0.3,0.7s-0.1,0.5-0.3,0.7l-7.5,7.5c-0.2,0.1-0.2,0.5 3.55271e-15,0.7z"
-                  fill="rgb(163, 0, 0)"
-                />
-              </svg>
+              </button>
             </div>
             <div className="register-page_f_feedback-bar">
-              <div className="register-page_f_fb_username" />
+              <div
+                className={classnames("register-page_f_fb_username", {
+                  color_rgb16300: this.state.errors.username,
+                  color_rgb52140255: this.state.success.username
+                })}
+              >
+                {this.state.errors.username}
+                {this.state.success.username}
+              </div>
             </div>
             <label
-              htmlFor="register-page_f_email-field"
-              className="register-page_f_i18n-email"
+              htmlFor="register-page_f_email"
+              className={classnames("register-page_f_i18n-email", {
+                color_white: $(".register-page_f_email-field").is(":focus")
+              })}
             >
-              Email (never shown)
+              Email (will never show)
             </label>
-            <div className="register-page_f_email-block">
+            <div
+              className={classnames("register-page_f_email", {
+                "border-bottom_rgb16300": this.state.errors.email,
+                "border-bottom_white": $(".register-page_f_email-field").is(
+                  ":focus"
+                )
+              })}
+            >
               <input
-                type="email"
-                id="register-page_f_email-field"
+                type="text"
+                autoComplete="off"
+                id="register-page_f_email"
                 className="register-page_f_email-field"
-                name="cls-email"
+                name="email"
+                value={this.state.email}
+                onChange={e => this.onInputChange(e)}
+                onFocus={e => this.onInputFocus(e)}
+                onBlur={e => this.onInputBlur(e)}
               />
-              <div className="register-check-button register-page_f_i18n-email-check-button">
-                check
-              </div>
-              <svg
-                viewBox="0 0 44 44"
-                width="24px"
-                height="24px"
-                className="register-page_f_email-check-icon"
-              >
-                <path
-                  d="m22,0c-12.2,0-22,9.8-22,22s9.8,22 22,22 22-9.8 22-22-9.8-22-22-22zm12.7,15.1l0,0-16,16.6c-0.2,0.2-0.4,0.3-0.7,0.3-0.3,0-0.6-0.1-0.7-0.3l-7.8-8.4-.2-.2c-0.2-0.2-0.3-0.5-0.3-0.7s0.1-0.5 0.3-0.7l1.4-1.4c0.4-0.4 1-0.4 1.4,0l.1,.1 5.5,5.9c0.2,0.2 0.5,0.2 0.7,0l13.4-13.9h0.1c0.4-0.4 1-0.4 1.4,0l1.4,1.4c0.4,0.3 0.4,0.9 0,1.3z"
-                  fill="rgb(52, 140, 255)"
-                />
-              </svg>
-              <svg
-                viewBox="0 0 44 44"
-                width="24px"
-                height="24px"
-                className="register-page_f_email-cross-icon"
-              >
-                <path
-                  d="m22,0c-12.2,0-22,9.8-22,22s9.8,22 22,22 22-9.8 22-22-9.8-22-22-22zm3.2,22.4l7.5,7.5c0.2,0.2 0.3,0.5 0.3,0.7s-0.1,0.5-0.3,0.7l-1.4,1.4c-0.2,0.2-0.5,0.3-0.7,0.3-0.3,0-0.5-0.1-0.7-0.3l-7.5-7.5c-0.2-0.2-0.5-0.2-0.7,0l-7.5,7.5c-0.2,0.2-0.5,0.3-0.7,0.3-0.3,0-0.5-0.1-0.7-0.3l-1.4-1.4c-0.2-0.2-0.3-0.5-0.3-0.7s0.1-0.5 0.3-0.7l7.5-7.5c0.2-0.2 0.2-0.5 0-0.7l-7.5-7.5c-0.2-0.2-0.3-0.5-0.3-0.7s0.1-0.5 0.3-0.7l1.4-1.4c0.2-0.2 0.5-0.3 0.7-0.3s0.5,0.1 0.7,0.3l7.5,7.5c0.2,0.2 0.5,0.2 0.7,0l7.5-7.5c0.2-0.2 0.5-0.3 0.7-0.3 0.3,0 0.5,0.1 0.7,0.3l1.4,1.4c0.2,0.2 0.3,0.5 0.3,0.7s-0.1,0.5-0.3,0.7l-7.5,7.5c-0.2,0.1-0.2,0.5 3.55271e-15,0.7z"
-                  fill="rgb(163, 0, 0)"
-                />
-              </svg>
             </div>
             <div className="register-page_f_feedback-bar">
-              <div className="register-page_f_fb_email" />
+              <div
+                className={classnames("register-page_f_fb_email", {
+                  color_rgb16300: this.state.errors.email
+                })}
+              >
+                {this.state.errors.email}
+              </div>
             </div>
             <label
-              htmlFor="register-page_f_password-field"
-              className="register-page_f_i18n-password"
+              htmlFor="register-page_f_password"
+              className={classnames("register-page_f_i18n-password", {
+                color_white: $(".register-page_f_password-field").is(":focus")
+              })}
             >
               Password
             </label>
-            <div className="register-page_f_password-block">
+            <div
+              className={classnames("register-page_f_password", {
+                "border-bottom_rgb16300": this.state.errors.password,
+                "border-bottom_white": $(".register-page_f_password-field").is(
+                  ":focus"
+                )
+              })}
+            >
               <input
                 type="password"
-                id="register-page_f_password-field"
+                autoComplete="off"
+                id="register-page_f_password"
                 className="register-page_f_password-field"
-                name="cls-password"
+                name="password"
+                value={this.state.password}
+                onChange={e => this.onInputChange(e)}
+                onFocus={e => this.onInputFocus(e)}
+                onBlur={e => this.onInputBlur(e)}
               />
-              <div className="register-page_f_eye-button">
+              <div
+                className="register-page_f_eye-button"
+                onClick={this.onTogglePasswordVisability}
+                datatoggle="false"
+              >
                 <svg
                   className="register-page_f_opened-eye-icon"
                   width="32px"
@@ -136,16 +280,28 @@ export default class Register extends Component {
                     y1="400"
                     x2="400"
                     y2="110"
-                    style={{ stroke: "rgb(30, 30, 30)", strokeWidth: 40 }}
+                    style={{ stroke: "rgb(25, 25, 25)", strokeWidth: 40 }}
                   />
                 </svg>
               </div>
             </div>
             <div className="register-page_f_feedback-bar">
-              <div className="register-page_f_fb_password" />
+              <div
+                className={classnames("register-page_f_fb_password", {
+                  color_rgb16300: this.state.errors.password
+                })}
+              >
+                {this.state.errors.password}
+              </div>
             </div>
             <div className="register-page_f_submit-block">
-              <div className="register-page_f_i18n-submit-signup-button">Sign Up</div>
+              <button
+                onClick={this.onSignup}
+                className="register-page_f_i18n-submit-signup-button"
+                id="signup-button"
+              >
+                Sign Up
+              </button>
             </div>
           </div>
           <div className="register-page_terms-privacy-cookie-policies">
@@ -153,11 +309,26 @@ export default class Register extends Component {
               By clicking "Sign Up", you acknowledge that you have read and
               understand{" "}
             </span>
-            <Link to="/termsofservice" className="register-page_i18n-terms-of-service">terms of service</Link>
+            <Link
+              to="/termsofservice"
+              className="register-page_i18n-terms-of-service"
+            >
+              terms of service
+            </Link>
             <span className="register-page_tpcp_i18n-second">, </span>
-            <Link to="/privacypolicy" className="register-page_i18n-privacy-policy">privacy policy</Link>
+            <Link
+              to="/privacypolicy"
+              className="register-page_i18n-privacy-policy"
+            >
+              privacy policy
+            </Link>
             <span className="register-page_tpcp_i18n-third"> and </span>
-            <Link to="/cookiepolicy" className="register-page_i18n-cookie-policy">cookie policy</Link>
+            <Link
+              to="/cookiepolicy"
+              className="register-page_i18n-cookie-policy"
+            >
+              cookie policy
+            </Link>
             <span className="register-page_tpcp_i18n-fourth">
               , and that your continued use of the website is subject to these
               policies.

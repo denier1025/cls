@@ -6,7 +6,15 @@ const Username = new Schema({
     type: String,
     required: true
   },
-  username: {
+  name: {
+    type: String,
+    required: true
+  },
+  by: {
+    type: String,
+    required: true
+  },
+  description: {
     type: String,
     required: true
   }
@@ -19,7 +27,7 @@ const UsernameHistorySchema = new Schema({
     ref: "User"
   },
   username: {
-    type: String,
+    type: Username,
     required: true
   },
   from: {

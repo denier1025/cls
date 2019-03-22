@@ -11,8 +11,7 @@ const Frozen = new Schema({
     required: true
   },
   to: {
-    type: Date,
-    required: true
+    type: Date
   },
   by: {
     type: String,

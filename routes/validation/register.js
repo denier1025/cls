@@ -1,17 +1,17 @@
 const Validator = require("validator");
-const isEmpty = require("./isEmpty");
+const isEmpty = require("../utils/isEmpty");
 
 module.exports = function validateRegisterInput(data) {
   const errors = {};
 
-  data.username = !isEmpty(data.username) ? data.username : "";
+  data.username.name = !isEmpty(data.username.name) ? data.username.name : "";
   data.email = !isEmpty(data.email) ? data.email : "";
   data.password = !isEmpty(data.password) ? data.password : "";
 
-  if (Validator.isEmpty(data.username)) {
+  if (Validator.isEmpty(data.username.name)) {
     errors.username = "Username field is required";
-  } else if (!Validator.isLength(data.username, { min: 3, max: 30 })) {
-    errors.username = "Username must be between 3 and 30 characters";
+  } else if (!Validator.isLength(data.username.name, { min: 5, max: 30 })) {
+    errors.username = "Username must be between 5 and 30 characters";
   }
 
   if (Validator.isEmpty(data.email)) {
@@ -24,8 +24,8 @@ module.exports = function validateRegisterInput(data) {
 
   if (Validator.isEmpty(data.password)) {
     errors.password = "Password field is required";
-  } else if (!Validator.isLength(data.password, { min: 6, max: 50 })) {
-    errors.password = "Password must be at least 6 characters and no more 50";
+  } else if (!Validator.isLength(data.password, { min: 8, max: 50 })) {
+    errors.password = "Password must be between 8 and 50 characters";
   }
 
   return {

@@ -4,7 +4,7 @@ const ImageHistory = require("mongoose").model("ImageHistory");
 const passport = require("passport");
 
 const validateImageInput = require("../validation/image");
-const isEmpty = require("../validation/isEmpty");
+const isEmpty = require("../utils/isEmpty");
 
 // @route  POST api/posts/:id/images
 // @desc   Add image

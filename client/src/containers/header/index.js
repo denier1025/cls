@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import "./header.css";
+import $ from "jquery";
 import SideNav from "./sidenav";
 import MessageWindow from "./messagewindow";
 import NotificationWindow from "./notificationwindow";
@@ -10,45 +11,59 @@ import TuneWindow from "./tunewindow";
 export default class Header extends Component {
   constructor(props) {
     super(props);
-    // this.state = {
-    //   style: {
-    //     tuneButton: {
-    //       backgroundColor: ""
-    //     },
-    //     tuneWindow: {
-    //       display: ""
-    //     }
-    //   }
-    // };
   }
 
-  // toggleTuneButton = () => {
-  //   if (!this.props.flags.tuneButton) {
-  //     this.setState({
-  //       style: {
-  //         tuneButton: {
-  //           backgroundColor: "background-color_rgba11111111105"
-  //         },
-  //         tuneWindow: {
-  //           display: "display_block"
-  //         }
-  //       },
-  //       tuneButtonFlag: !this.state.tuneButtonFlag
-  //     });
-  //   } else {
-  //     this.setState({
-  //       style: {
-  //         tuneButton: {
-  //           backgroundColor: "background-color_none"
-  //         },
-  //         tuneWindow: {
-  //           display: "display_none"
-  //         }
-  //       },
-  //       tuneButtonFlag: !this.state.tuneButtonFlag
-  //     });
-  //   }
-  // };
+  showMessageWindow = () => {
+    const messageButton = $("#message-button");
+    if (messageButton.attr("datatoggle") === "false") {
+      messageButton.addClass("background-color_rgba11111111105");
+      messageButton.siblings(".message-window").addClass("display_block");
+      messageButton.attr("datatoggle", "true");
+    } else {
+      messageButton.removeClass("background-color_rgba11111111105");
+      messageButton.siblings(".message-window").removeClass("display_block");
+      messageButton.attr("datatoggle", "false");
+    }
+  };
+
+  showNotificationWindow = () => {
+    const notificationButton = $("#notification-button");
+    if (notificationButton.attr("datatoggle") === "false") {
+      notificationButton.addClass("background-color_rgba11111111105");
+      notificationButton.siblings(".notification-window").addClass("display_block");
+      notificationButton.attr("datatoggle", "true");
+    } else {
+      notificationButton.removeClass("background-color_rgba11111111105");
+      notificationButton.siblings(".notification-window").removeClass("display_block");
+      notificationButton.attr("datatoggle", "false");
+    }
+  };
+
+  showUserWindow = () => {
+    const userButton = $("#user-button");
+    if (userButton.attr("datatoggle") === "false") {
+      userButton.addClass("background-color_rgba5214025505");
+      userButton.siblings(".user-window").addClass("display_block");
+      userButton.attr("datatoggle", "true");
+    } else {
+      userButton.removeClass("background-color_rgba5214025505");
+      userButton.siblings(".user-window").removeClass("display_block");
+      userButton.attr("datatoggle", "false");
+    }
+  };
+
+  showTuneWindow = () => {
+    const tuneButton = $("#tune-button");
+    if (tuneButton.attr("datatoggle") === "false") {
+      tuneButton.addClass("background-color_rgba11111111105");
+      tuneButton.siblings(".tune-window").addClass("display_block");
+      tuneButton.attr("datatoggle", "true");
+    } else {
+      tuneButton.removeClass("background-color_rgba11111111105");
+      tuneButton.siblings(".tune-window").removeClass("display_block");
+      tuneButton.attr("datatoggle", "false");
+    }
+  };
 
   render() {
     return (
@@ -69,10 +84,7 @@ export default class Header extends Component {
                 <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
               </svg>
             </div>
-            <SideNav
-              cssProps={this.props.cssProps}
-              toggleHamButton={this.props.toggleHamButton}
-            />
+            <SideNav appType={this.props.appType} changeHBF={this.props.changeHBF} toggleHamButton={this.props.toggleHamButton} />
           </div>
           <Link className="app-header_l_logo" to="/">
             <div className="app-header_l_l_short">
@@ -165,7 +177,12 @@ export default class Header extends Component {
             </svg>
           </Link>
           <div className="app-header_r_message-container">
-            <div className="message-button app-header_r_message-button">
+            <div
+              id="message-button"
+              className="message-button app-header_r_message-button"
+              onClick={this.showMessageWindow}
+              datatoggle="false"
+            >
               <svg
                 height="24px"
                 width="24px"
@@ -188,7 +205,12 @@ export default class Header extends Component {
             <MessageWindow />
           </div>
           <div className="app-header_r_notification-container">
-            <div className="notification-button app-header_r_notification-button">
+            <div
+              id="notification-button"
+              className="notification-button app-header_r_notification-button"
+              onClick={this.showNotificationWindow}
+              datatoggle="false"
+            >
               <svg
                 viewBox="0 0 24 24"
                 height="24px"
@@ -202,7 +224,12 @@ export default class Header extends Component {
             <NotificationWindow />
           </div>
           <div className="app-header_r_user-container">
-            <div className="user-button app-header_r_user-button">
+            <div
+              id="user-button"
+              className="user-button app-header_r_user-button"
+              onClick={this.showUserWindow}
+              datatoggle="false"
+            >
               <svg
                 className="user-icon app-header_r_ub_icon"
                 viewBox="0 0 60 60"
@@ -224,8 +251,10 @@ export default class Header extends Component {
           </div>
           <div className="app-header_r_tune-container">
             <div
-              className={"tune-button app-header_r_tune-button "/* + this.state.style.tuneButton.backgroundColor*/}
-              // onClick={this.toggleTuneButton}
+              id="tune-button"
+              className="tune-button app-header_r_tune-button"
+              onClick={this.showTuneWindow}
+              datatoggle="false"
             >
               <svg
                 height="24px"
@@ -237,9 +266,7 @@ export default class Header extends Component {
                 <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
               </svg>
             </div>
-            <TuneWindow
-            // cssProps={this.state.style.tuneWindow}
-            />
+            <TuneWindow />
           </div>
         </div>
       </header>

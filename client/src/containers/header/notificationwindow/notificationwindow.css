@@ -1,12 +1,12 @@
 .notification-window {
     display: none;
     position: absolute;
-    left: -158px;
+    left: -138px;
     top: 44px;
     z-index: 50;
     background-color: rgb(37, 37, 37);
     border: 1px solid rgb(77, 77, 77);
-    width: 200px;
+    width: 180px;
     max-height: calc(100vh - 84px);
 }
 

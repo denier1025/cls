@@ -1,17 +1,29 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import "./sidenav.css";
+import $ from "jquery"
 import Scrollbar from "../../widgets/Scrollbar";
 
-export default class SideNav extends Component {
+class SideNav extends Component {
   constructor(props) {
     super(props);
     this.osTargetRef = React.createRef();
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.props.appType === "mobile") {
+      if(nextProps.location.pathname !== this.props.location.pathname) {
+        $(".side-nav").removeClass("display_block");
+        this.props.changeHBF()
+      }
+    }
+
+    return true;
+  }
+
   render() {
     return (
-      <nav className={"side-nav " + this.props.cssProps.display}>
+      <nav className="side-nav">
         <div className="side-nav_backdrop" onClick={this.props.toggleHamButton} />
         <header className="side-nav_header">
           <div className="ham-button side-nav_h_ham-button" onClick={this.props.toggleHamButton}>
@@ -107,75 +119,10 @@ export default class SideNav extends Component {
         >
           <div className="side-nav_flex">
             <main className="side-nav_main">
-              {/* <div className="side-nav_m_signedin-block">
-              <div className="side-nav_m_sb_user">
-                <div className="user-button side-nav_m_sb_u_user-button">
-                  <svg
-                    className="user-icon side-nav_m_sb_u_ub_icon"
-                    viewBox="0 0 60 60"
-                    width="24px"
-                    height="24px"
-                    fill="rgb(149, 149, 149)"
-                  >
-                    <path
-                      d="M48.014,42.889l-9.553-4.776C37.56,37.662,37,36.756,37,35.748v-3.381c0.229-0.28,0.47-0.599,0.719-0.951
-	c1.239-1.75,2.232-3.698,2.954-5.799C42.084,24.97,43,23.575,43,22v-4c0-0.963-0.36-1.896-1-2.625v-5.319
-	c0.056-0.55,0.276-3.824-2.092-6.525C37.854,1.188,34.521,0,30,0s-7.854,1.188-9.908,3.53C17.724,6.231,17.944,9.506,18,10.056
-	v5.319c-0.64,0.729-1,1.662-1,2.625v4c0,1.217,0.553,2.352,1.497,3.109c0.916,3.627,2.833,6.36,3.503,7.237v3.309
-	c0,0.968-0.528,1.856-1.377,2.32l-8.921,4.866C8.801,44.424,7,47.458,7,50.762V54c0,4.746,15.045,6,23,6s23-1.254,23-6v-3.043
-	C53,47.519,51.089,44.427,48.014,42.889z"
-                    />
-                  </svg>
-                </div>
-                <div className="side-nav_m_sb_u_dn-block">
-                  <div className="side-nav_m_sb_u_db_i18n-username text-dimension">
-                    Display name:
-                  </div>
-                  <div className="side-nav_m_sb_u_db_server-data-username text-dimension">denier1025</div>
-                </div>
-              </div>
-              <ul className="side-nav_m_sb_alert-items">
-                <li className="side-nav_m_sb_ai_alert-item">
-                  <div className="message-button side-nav_m_sb_ai_ai_message-button">
-                    <svg
-                      height="24px"
-                      width="24px"
-                      viewBox="0 0 537.18 537.18"
-                      fill="rgb(149, 149, 149)"
-                      className="message-icon side-nav_m_sb_ai_ai_mb_icon"
-                    >
-                      <path d="M266.7,287.513L514.92,86.927c-7.14-5.046-15.96-7.569-25.62-7.569H44.1c-9.66,0-18.48,2.523-25.62,7.569L266.7,287.513z" />
-                      <path
-                        d="M317.94,267.749l210,169.468c5.46-7.569,9.24-16.821,9.24-26.493V124.773c0-10.092-4.2-18.923-9.24-26.493L317.94,267.749
-                                 z"
-                      />
-                      <path d="M7.56,98.281C2.1,105.85,0,115.102,0,124.773v285.951c0,10.092,2.1,18.923,7.56,26.493l209.16-169.468L7.56,98.281z" />
-                      <path
-                        d="M304.5,278.682l-32.34,26.493c-1.68,1.262-3.36,1.682-5.46,1.682s-3.78-0.421-5.46-1.682l-32.34-26.493L18.48,449.412
-                                 c7.14,5.046,15.96,8.41,25.62,8.41h445.2c9.66,0,18.48-3.364,25.62-8.41L304.5,278.682z"
-                      />
-                    </svg>
-                  </div>
-                </li>
-                <li className="side-nav_m_sb_ai_alert-item">
-                  <div className="notification-button side-nav_m_sb_ai_ai_notification-button">
-                    <svg
-                      viewBox="0 0 24 24"
-                      height="24px"
-                      width="24px"
-                      fill="rgb(149, 149, 149)"
-                      className="notification-icon side-nav_m_sb_ai_ai_nb_icon"
-                    >
-                      <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z" />
-                    </svg>
-                  </div>
-                </li>
-              </ul>
-            </div> */}
               <div className="side-nav_m_main-nav">
                 <ul className="side-nav_m_mn_items">
                   <li className="side-nav_m_mn_i_item">
-                    <Link to="/">
+                    <Link to="/" className="side-nav_m_mn_i_i_link">
                       <div className="side-nav_m_mn_i_i_main-icon-cover">
                         <svg
                           height="24px"
@@ -193,7 +140,7 @@ export default class SideNav extends Component {
                     </Link>
                   </li>
                   <li className="side-nav_m_mn_i_item">
-                    <Link to="/posts">
+                    <Link to="/posts" className="side-nav_m_mn_i_i_link">
                       <div className="side-nav_m_mn_i_i_posts-icon-cover">
                         <svg
                           height="24px"
@@ -213,119 +160,119 @@ export default class SideNav extends Component {
                     </Link>
                   </li>
                   <li className="side-nav_m_mn_i_item">
-                    <Link to="/">
+                    <Link to="/" className="side-nav_m_mn_i_i_link">
                       <div className="side-nav_m_mn_i_i_i18n-posts text-dimension">
                         Test Test Test Test Test Test Test
                       </div>
                     </Link>
                   </li>
                   <li className="side-nav_m_mn_i_item">
-                    <Link to="/">
+                    <Link to="/" className="side-nav_m_mn_i_i_link">
                       <div className="side-nav_m_mn_i_i_i18n-posts text-dimension">
                         Test
                       </div>
                     </Link>
                   </li>
                   <li className="side-nav_m_mn_i_item">
-                    <Link to="/">
+                    <Link to="/" className="side-nav_m_mn_i_i_link">
                       <div className="side-nav_m_mn_i_i_i18n-posts text-dimension">
                         Test
                       </div>
                     </Link>
                   </li>
                   <li className="side-nav_m_mn_i_item">
-                    <Link to="/">
+                    <Link to="/" className="side-nav_m_mn_i_i_link">
                       <div className="side-nav_m_mn_i_i_i18n-posts text-dimension">
                         Test
                       </div>
                     </Link>
                   </li>
                   <li className="side-nav_m_mn_i_item">
-                    <Link to="/">
+                    <Link to="/" className="side-nav_m_mn_i_i_link">
                       <div className="side-nav_m_mn_i_i_i18n-posts text-dimension">
                         Test
                       </div>
                     </Link>
                   </li>
                   <li className="side-nav_m_mn_i_item">
-                    <Link to="/">
+                    <Link to="/" className="side-nav_m_mn_i_i_link">
                       <div className="side-nav_m_mn_i_i_i18n-posts text-dimension">
                         Test
                       </div>
                     </Link>
                   </li>
                   <li className="side-nav_m_mn_i_item">
-                    <Link to="/">
+                    <Link to="/" className="side-nav_m_mn_i_i_link">
                       <div className="side-nav_m_mn_i_i_i18n-posts text-dimension">
                         Test
                       </div>
                     </Link>
                   </li>
                   <li className="side-nav_m_mn_i_item">
-                    <Link to="/">
+                    <Link to="/" className="side-nav_m_mn_i_i_link">
                       <div className="side-nav_m_mn_i_i_i18n-posts text-dimension">
                         Test
                       </div>
                     </Link>
                   </li>
                   <li className="side-nav_m_mn_i_item">
-                    <Link to="/">
+                    <Link to="/" className="side-nav_m_mn_i_i_link">
                       <div className="side-nav_m_mn_i_i_i18n-posts text-dimension">
                         Test
                       </div>
                     </Link>
                   </li>
                   <li className="side-nav_m_mn_i_item">
-                    <Link to="/">
+                    <Link to="/" className="side-nav_m_mn_i_i_link">
                       <div className="side-nav_m_mn_i_i_i18n-posts text-dimension">
                         Test
                       </div>
                     </Link>
                   </li>
                   <li className="side-nav_m_mn_i_item">
-                    <Link to="/">
+                    <Link to="/" className="side-nav_m_mn_i_i_link">
                       <div className="side-nav_m_mn_i_i_i18n-posts text-dimension">
                         Test
                       </div>
                     </Link>
                   </li>
                   <li className="side-nav_m_mn_i_item">
-                    <Link to="/">
+                    <Link to="/" className="side-nav_m_mn_i_i_link">
                       <div className="side-nav_m_mn_i_i_i18n-posts text-dimension">
                         Test
                       </div>
                     </Link>
                   </li>
                   <li className="side-nav_m_mn_i_item">
-                    <Link to="/">
+                    <Link to="/" className="side-nav_m_mn_i_i_link">
                       <div className="side-nav_m_mn_i_i_i18n-posts text-dimension">
                         Test
                       </div>
                     </Link>
                   </li>
                   <li className="side-nav_m_mn_i_item">
-                    <Link to="/">
+                    <Link to="/" className="side-nav_m_mn_i_i_link">
                       <div className="side-nav_m_mn_i_i_i18n-posts text-dimension">
                         Test
                       </div>
                     </Link>
                   </li>
                   <li className="side-nav_m_mn_i_item">
-                    <Link to="/">
+                    <Link to="/" className="side-nav_m_mn_i_i_link">
                       <div className="side-nav_m_mn_i_i_i18n-posts text-dimension">
                         Test
                       </div>
                     </Link>
                   </li>
                   <li className="side-nav_m_mn_i_item">
-                    <Link to="/">
+                    <Link to="/" className="side-nav_m_mn_i_i_link">
                       <div className="side-nav_m_mn_i_i_i18n-posts text-dimension">
                         Test
                       </div>
                     </Link>
                   </li>
                   <li className="side-nav_m_mn_i_item">
-                    <Link to="/">
+                    <Link to="/" className="side-nav_m_mn_i_i_link">
                       <div className="side-nav_m_mn_i_i_i18n-posts text-dimension">
                         Test
                       </div>
@@ -336,7 +283,7 @@ export default class SideNav extends Component {
               <div className="side-nav_m_sup-nav">
                 <ul className="side-nav_m_sn_items">
                   <li className="side-nav_m_sn_i_item">
-                    <Link to="/help">
+                    <Link to="/help" className="side-nav_m_sn_i_i_link">
                       <div className="side-nav_m_sn_i_i_help-icon-cover">
                         <svg
                           className="side-nav_m_sn_i_i_hic_help-icon"
@@ -354,7 +301,7 @@ export default class SideNav extends Component {
                     </Link>
                   </li>
                   <li className="side-nav_m_sn_i_item">
-                    <Link to="/feedback">
+                    <Link to="/feedback" className="side-nav_m_sn_i_i_link">
                       <div className="side-nav_m_sn_i_i_feedback-icon-cover">
                         <svg
                           viewBox="0 0 24 24"
@@ -422,3 +369,5 @@ export default class SideNav extends Component {
     );
   }
 }
+
+export default withRouter(SideNav);

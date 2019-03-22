@@ -93,10 +93,8 @@
   font-weight: 400;
   background-color: rgb(25, 25, 25);
   color: rgb(163, 163, 163);
-  width: 100vw;
-  min-width: 320px;
   height: 100vh;
-  position: fixed;
+  position: relative;
   z-index: 10;
 }
 
@@ -146,8 +144,36 @@
   background-color: none !important;
 }
 
+.color_white {
+  color: white !important;
+}
+
+.color_rgb16300 {
+  color: rgb(163, 0, 0) !important;
+}
+
+.color_rgb52140255 {
+  color: rgb(52, 140, 255) !important;
+}
+
+.border-bottom_white {
+  border-bottom: 1px solid white !important;
+}
+
+.border-bottom_rgb16300 {
+  border-bottom: 1px solid rgb(163, 0, 0) !important;
+}
+
+.border-bottom_rgb52140255 {
+  border-bottom: 1px solid rgb(52, 140, 255) !important;
+}
+
 .background-color_rgba11111111105 {
   background-color: rgba(111, 111, 111, 0.5) !important;
+}
+
+.background-color_rgba5214025505 {
+  background-color: rgba(52, 140, 255, 0.5) !important;
 }
 
 /* Single props ends */

@@ -12,13 +12,8 @@ mongoose
 const app = require("express")();
 
 const bodyParser = require("body-parser");
-app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
-/* ### Import passport ### */
-const passport = require("passport");
-
-app.use(passport.initialize());
 
 /* ### Mongoose models (ODM area) ### */
 require("./models/User");
@@ -40,14 +35,14 @@ require("./models/history/user/parts/UsernameHistory");
 /* ### Create main entry to DB ### */
 const bcryptjs = require("bcryptjs");
 const User = mongoose.model("User");
-const isEmpty = require("./routes/validation/isEmpty");
+const isEmpty = require("./routes/utils/isEmpty");
 
-User.findOne({
-  username: "AD4925"
-}).then(user => {
+User.findById("5c8b7b0b988ad521d4f7f05c").then(user => {
   if (isEmpty(user)) {
     const newUser = new User({
-      username: "AD4925",
+      username: {
+        name: "AD4925"
+      },
       email: "denier1025@gmail.com",
       password: "Cp71bar9",
       permission: {
@@ -62,6 +57,11 @@ User.findOne({
     });
   }
 });
+
+/* ### Import passport ### */
+const passport = require("passport");
+
+app.use(passport.initialize());
 
 /* ### JWT Passport strategy ### */
 require("./routes/utils/passport-jwt")(passport);

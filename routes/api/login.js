@@ -7,7 +7,7 @@ const FrozenHistory = mongoose.model("FrozenHistory");
 const keys = require("../../config/keys");
 
 const validateLoginInput = require("../validation/login");
-const isEmpty = require("../validation/isEmpty");
+const isEmpty = require("../utils/isEmpty");
 
 // @role   Do not need
 // @route  POST api/login
@@ -21,6 +21,8 @@ router.post("/", (req, res) => {
     return res.status(400).json(errors);
   }
 
+  // TODO: Check login data in Redis
+
   User.findOne({ email: req.body.email })
     .then(user => {
       if (isEmpty(user)) {
@@ -30,7 +32,16 @@ router.post("/", (req, res) => {
       } else {
         bcryptjs.compare(req.body.password, user.password).then(isMatch => {
           if (isMatch) {
-            if (user.frozen) {
+            const payload = {
+              id: user.id,
+              username: user.username,
+              avatar: user.avatar,
+              permission: {
+                role: user.permission.role
+              }
+            };
+
+            if (user.frozen && user.frozen.to) {
               if (!(user.frozen.to < Date.now())) {
                 errors.frozen = {
                   from: user.frozen.from,
@@ -54,34 +65,43 @@ router.post("/", (req, res) => {
                 })
                   .save()
                   .then(() => {
-                    User.updateOne(
+                    User.update(
                       { _id: user.id },
                       {
                         $set: {
-                          frozen: null
+                          frozen: {
+                            to: null
+                          }
                         }
                       },
                       { new: true }
-                    );
+                    )
+                    .then(() => {
+                      jwt.sign(
+                        payload,
+                        keys.jwtSecretOrKey,
+                        { expiresIn: 3600 },
+                        (err, token) => {
+                          res.json({
+                            jwtToken: "Bearer " + token
+                          });
+                        }
+                      );
+                    });
                   });
               }
+            } else {
+              jwt.sign(
+                payload,
+                keys.jwtSecretOrKey,
+                { expiresIn: 3600 },
+                (err, token) => {
+                  res.json({
+                    token: "Bearer " + token
+                  });
+                }
+              );
             }
-            const payload = {
-              id: user.id,
-              username: user.username,
-              avatar: user.avatar,
-              permission: user.permission
-            };
-            jwt.sign(
-              payload,
-              keys.jwtSecretOrKey,
-              { expiresIn: 3000 },
-              (err, token) => {
-                res.json({
-                  token: "Bearer " + token
-                });
-              }
-            );
           } else {
             errors.password = "Incorrect password.";
             errors.badRequest = "Password doesn't match.";
@@ -115,7 +135,7 @@ router.post("/", (req, res) => {
 //         errors.notFound = "Email not found.";
 //         res.status(404).json(errors);
 //       } else {
-//         // TODO: save to redis(email, time, exp date), generate url for recovery password(api/login/recovery/:hash(email, time)), and send to an email
+//         // TODO: save to redis(email, time, exp date), generate url for recovery password(api/login/recovery/:Base58(bcryptjs(email, time))), and send to an email
 //       }
 //     })
 //     .catch(err => {
@@ -125,13 +145,13 @@ router.post("/", (req, res) => {
 // });
 
 // // @role   Do not need
-// // @route  PUT api/login/recovery/:hash
+// // @route  PUT api/login/recovery/:encryptedData
 // // @desc   Password recovery
 // // @access Public
-// router.get("/recovery/:hash", (req, res) => {
-//   /*TODO: go to redis and check email + time and exp date*/
+// router.get("/recovery/:encryptedData", (req, res) => {
+//   /*TODO: Base58(req.params.encryptedData) -> go to redis and check email + time and exp date*/
 //   if() {
-//     User.findOne({ email: /*redis*/ email })
+//     User.findOne({ email: req.params.encryptedData.email })
 //     .then(user => {
 //       if (isEmpty(user)) {
 //         errors.email = "Incorrect email.";
@@ -148,7 +168,7 @@ router.post("/", (req, res) => {
 //             },
 //             { new: true }
 //           ).then(user => {
-//             //TODO: send an email for changing with !!!plainPassword!!!
+//             //TODO: Delete entry in Redis, send an email for changing with !!!plainPassword!!!
 //             res.json(user);
 //           });
 //         };
@@ -177,8 +197,8 @@ router.post("/", (req, res) => {
 //     });
 //   } else {
 //     errors.url = "Invalid URL.";
-//     errors.notFound = "Email not found.";
-//     res.status(404).json(errors);
+//     errors.badRequest = "Garbage data.";
+//     res.status(400).json(errors);
 //   }
 // });
 

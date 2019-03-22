@@ -15,7 +15,7 @@ module.exports = passport => {
       User.findById(jwt_payload.id)
         .then(user => {
           if (user) {
-            if (user.frozen) {
+            if (user.frozen && user.frozen.to) {
               if (!(user.frozen.to < Date.now())) {
                 done(null, false);
               } else {
@@ -35,7 +35,9 @@ module.exports = passport => {
                       { _id: user.id },
                       {
                         $set: {
-                          frozen: null
+                          frozen: {
+                            to: null
+                          }
                         }
                       },
                       { new: true }

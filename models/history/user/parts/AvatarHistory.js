@@ -7,22 +7,30 @@ const Avatar = new Schema({
     required: true
   },
   image: {
-    type: Buffer,
-    required: true
-  },
-  contentType: {
-    type: String,
-    required: true
-  },
-  encoding: {
-    type: String,
-    required: true
+    type: new Schema({
+      buffer: {
+        type: Buffer,
+        required: true
+      },
+      contentType: {
+        type: String,
+        required: true
+      },
+      encoding: {
+        type: String,
+        required: true
+      }
+    })
   },
   from: {
     type: Date,
     required: true
   },
   by: {
+    type: String,
+    required: true
+  },
+  description: {
     type: String,
     required: true
   }

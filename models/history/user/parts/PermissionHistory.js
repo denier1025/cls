@@ -17,6 +17,10 @@ const Permission = new Schema({
   from: {
     type: Date,
     required: true
+  },
+  description: {
+    type: String,
+    required: true
   }
 });
 

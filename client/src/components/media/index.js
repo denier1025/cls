@@ -1,8 +1,8 @@
 import React from "react";
+import MediaQuery from "react-responsive";
 import Mobile from "./mobile";
 import Desktop from "./desktop";
 import App from "../../containers/app";
-import MediaQuery from "react-responsive";
 
 export default function Media() {
   return (

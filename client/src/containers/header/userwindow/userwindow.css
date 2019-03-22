@@ -1,19 +1,100 @@
 .user-window {
-    display: none;
-    position: absolute;
-    left: -158px;
-    top: 44px;
-    z-index: 50;
-    background-color: rgb(37, 37, 37);
-    border: 1px solid rgb(77, 77, 77);
-    width: 200px;
-    max-height: calc(100vh - 84px);
+  display: none;
+  position: absolute;
+  left: -138px;
+  top: 44px;
+  z-index: 50;
+  background-color: rgb(37, 37, 37);
+  border: 1px solid rgb(77, 77, 77);
+  width: 180px;
+  max-height: calc(100vh - 84px);
 }
 
 .user-window_scrollbar {
-    max-height: calc(100vh - 84px);
+  max-height: calc(100vh - 84px);
 }
 
 .user-window_container {
-    padding: 8px;
+}
+
+.user-window_c_items {
+  list-style: none;
+  margin: 0;
+  padding: 8px 0;
+  border-bottom: 1px solid rgb(77, 77, 77);
+}
+
+.user-window_c_item {
+  height: 40px;
+}
+
+
+.user-window_c_i_link {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  text-decoration: none;
+  color: #ccc;
+  padding: 0 24px;
+  width: 100%;
+  height: 100%;
+}
+
+.user-window_c_account-icon-cover {
+  height: 24px;
+  margin: auto 0;
+  margin-right: 24px;
+}
+
+.user-window_c_account-icon {
+}
+
+.user-window_c_i18n-account {
+  margin: auto 0;
+}
+
+.user-window_c_signout-button-container {
+  margin: 8px 0;
+  height: 40px;
+}
+
+.user-window_c_signout-button {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  text-decoration: none;
+  color: #ccc;
+  padding: 0 24px;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.user-window_c_signout-icon-cover {
+  height: 24px;
+  margin: auto 0;
+  margin-right: 24px;
+}
+
+.user-window_c_signout-icon {
+}
+
+.user-window_c_i18n-signout {
+  margin: auto 0;
+}
+
+.user-window_c_item:hover {
+  background-color: rgba(111, 111, 111, 0.5);
+}
+
+.user-window_c_item:active {
+  background-color: rgba(136, 136, 136, 0.5);
+}
+
+.user-window_c_signout-button-container:hover {
+  background-color: rgba(111, 111, 111, 0.5);
+}
+
+.user-window_c_signout-button-container:active {
+  background-color: rgba(136, 136, 136, 0.5);
 }

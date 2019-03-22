@@ -1,44 +1,258 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import "./login.css";
+import axios from "axios";
+import $ from "jquery";
+import classnames from "classnames";
 
 export default class Login extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: "",
+      password: "",
+      remail: "",
+      errors: {}
+    };
+  }
+
+  onInputChange = e => {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  };
+
+  onInputFocus = e => {
+    this.setState({
+      success: {
+        ...this.state.success,
+        [e.target.name]: ""
+      },
+      errors: {
+        ...this.state.errors,
+        [e.target.name]: ""
+      }
+    });
+  };
+
+  onInputBlur = e => {
+    this.setState(this.state);
+  };
+
+  onTogglePasswordVisability = () => {
+    if ($(".login-page_f_eye-button").attr("datatoggle") === "false") {
+      $(".login-page_f_password-field").attr("type", "text");
+      $(".login-page_f_closed-eye-icon").addClass("display_none");
+      $(".login-page_f_opened-eye-icon").addClass("display_block");
+      $(".login-page_f_eye-button").attr("datatoggle", "true");
+    } else {
+      $(".login-page_f_password-field").attr("type", "password");
+      $(".login-page_f_closed-eye-icon").removeClass("display_none");
+      $(".login-page_f_opened-eye-icon").removeClass("display_block");
+      $(".login-page_f_eye-button").attr("datatoggle", "false");
+    }
+  };
+
+  onForgotPassword = () => {
+    $(".login-container_backdrop").addClass("display_block");
+    $(".login-container_recovery-by-email").addClass("display_block");
+    $(".login-container_back-button").addClass("display_block");
+  };
+
+  onBackdrop = () => {
+    $(".login-container_backdrop").removeClass("display_block");
+    $(".login-container_recovery-by-email").removeClass("display_block");
+    $(".login-container_back-button").removeClass("display_block");
+  };
+
+  onBackButton = () => {
+    $(".login-container_backdrop").removeClass("display_block");
+    $(".login-container_recovery-by-email").removeClass("display_block");
+    $(".login-container_rbe_back-button").removeClass("display_block");
+  };
+
+  onSignin = () => {
+    const userData = {
+      email: this.state.email,
+      password: this.state.password
+    };
+
+    axios
+      .post("/api/login", userData)
+      .then(res => console.log(res.data))
+      .catch(err => this.setState({ errors: err.response.data }));
+  };
+
+  // componentDidMount() {
+  //   this.setState({
+  //     errors: {remail: "fuck!"}
+  //   })
+  // }
+
+  componentDidUpdate() {
+    const { email, password, remail } = this.state.errors;
+    if (email || password) {
+      $("#signin-button").attr("disabled", "");
+    } else {
+      $("#signin-button").removeAttr("disabled");
+    }
+    if (remail) {
+      $("#recovery-button").attr("disabled", "");
+    } else {
+      $("#recovery-button").removeAttr("disabled");
+    }
+  }
+
   render() {
     return (
       <div className="login-container noselect">
+        <div className="login-container_backdrop" onClick={this.onBackdrop} />
+        <div className="login-container_recovery-by-email">
+          <div className="login-container_rbe_header">
+            <div
+              className="login-container_rbe_back-button"
+              onClick={this.onBackButton}
+            >
+              <svg
+                className="login-container_rbe_back-icon"
+                width="23px"
+                height="23px"
+                viewBox="0 0 612 612"
+                fill="rgb(204, 204, 204)"
+              >
+                <path
+                  d="M178.5,191.25v-76.5L0,293.25l178.5,178.5v-76.5l-102-102L178.5,191.25z M331.5,216.75v-102L153,293.25l178.5,178.5V367.2
+              C459,367.2,548.25,408,612,497.25C586.5,369.75,510,242.25,331.5,216.75z"
+                />
+              </svg>
+            </div>
+            <div className="login-container_rbe_i18n-description">
+              Enter your email address and we'll send you a recovery link.
+            </div>
+          </div>
+          <div className="login-container_rbe_form">
+            <div className="login-container_rbe_f_first-part">
+              <label
+                htmlFor="login-container_rbe_f_email"
+                className={classnames("login-container_f_i18n-email", {
+                  color_white: $(".login-container_rbe_f_email-field").is(
+                    ":focus"
+                  )
+                })}
+              >
+                Email (for recovery password)
+              </label>
+              <div
+                className={classnames("login-container_rbe_f_email", {
+                  "border-bottom_rgb16300": this.state.errors.remail,
+                  "border-bottom_white": $(
+                    ".login-container_rbe_f_email-field"
+                  ).is(":focus")
+                })}
+              >
+                <input
+                  type="text"
+                  autoComplete="off"
+                  id="login-container_rbe_f_email"
+                  className="login-container_rbe_f_email-field"
+                  name="remail"
+                  value={this.state.remail}
+                  onChange={e => this.onInputChange(e)}
+                  onFocus={e => this.onInputFocus(e)}
+                  onBlur={e => this.onInputBlur(e)}
+                />
+              </div>
+              <div className="login-container_rbe_f_feedback-bar">
+                <div
+                  className={classnames("login-container_rbe_f_fb_recovery", {
+                    color_rgb16300: this.state.errors.remail
+                  })}
+                >
+                  {this.state.errors.remail}
+                </div>
+              </div>
+            </div>
+            <div className="login-container_rbe_f_second-part">
+              <button
+                className="login-container_rbe_f_i18n-submit-recovery-button"
+                id="recovery-button"
+              >
+                Recovery
+              </button>
+            </div>
+          </div>
+        </div>
         <div className="login-page">
           <div className="login-page_form">
             <label
-              htmlFor="login-page_f_email-field"
-              className="login-page_f_i18n-email"
+              htmlFor="login-page_f_email"
+              className={classnames("login-page_f_i18n-email", {
+                color_white: $(".login-page_f_email-field").is(":focus")
+              })}
             >
               Email
             </label>
-            <div className="login-page_f_email-block">
+            <div
+              className={classnames("login-page_f_email", {
+                "border-bottom_rgb16300": this.state.errors.email,
+                "border-bottom_white": $(".login-page_f_email-field").is(
+                  ":focus"
+                )
+              })}
+            >
               <input
-                type="email"
-                id="login-page_f_email-field"
+                type="text"
+                autoComplete="off"
+                id="login-page_f_email"
                 className="login-page_f_email-field"
-                name="cls-email"
+                name="email"
+                value={this.state.email}
+                onChange={e => this.onInputChange(e)}
+                onFocus={e => this.onInputFocus(e)}
+                onBlur={e => this.onInputBlur(e)}
               />
             </div>
             <div className="login-page_f_feedback-bar">
-              <div className="login-page_f_fb_email"></div>
+              <div
+                className={classnames("login-page_f_fb_email", {
+                  color_rgb16300: this.state.errors.email
+                })}
+              >
+                {this.state.errors.email}
+              </div>
             </div>
             <label
-              htmlFor="login-page_f_password-field"
-              className="login-page_f_i18n-password"
+              htmlFor="login-page_f_password"
+              className={classnames("login-page_f_i18n-password", {
+                color_white: $(".login-page_f_password-field").is(":focus")
+              })}
             >
               Password
             </label>
-            <div className="login-page_f_password-block">
+            <div
+              className={classnames("login-page_f_password", {
+                "border-bottom_rgb16300": this.state.errors.password,
+                "border-bottom_white": $(".login-page_f_password-field").is(
+                  ":focus"
+                )
+              })}
+            >
               <input
                 type="password"
-                id="login-page_f_password-field"
+                autoComplete="off"
+                id="login-page_f_password"
                 className="login-page_f_password-field"
-                name="cls-password"
+                name="password"
+                value={this.state.password}
+                onChange={e => this.onInputChange(e)}
+                onFocus={e => this.onInputFocus(e)}
+                onBlur={e => this.onInputBlur(e)}
               />
-              <div className="login-page_f_eye-button">
+              <div
+                className="login-page_f_eye-button"
+                onClick={this.onTogglePasswordVisability}
+                datatoggle="false"
+              >
                 <svg
                   className="login-page_f_opened-eye-icon"
                   width="32px"
@@ -69,40 +283,36 @@ export default class Login extends Component {
                     y1="400"
                     x2="400"
                     y2="110"
-                    style={{ stroke: "rgb(30, 30, 30)", strokeWidth: 40 }}
+                    style={{ stroke: "rgb(25, 25, 25)", strokeWidth: 40 }}
                   />
                 </svg>
               </div>
             </div>
             <div className="login-page_f_feedback-bar-forgot-block">
               <div className="login-page_f_feedback-bar">
-                <div className="login-page_f_fb_password"></div>
-              </div>
-              <div className="login-page_f_forgot-container">
-                <div className="login-page_f_i18n-forgot">forgot?</div>
-                <div className="login-page_f_recovery-by-email">
-                  <div className="login-page_f_rbe_i18n-description">
-                    Enter your email address and we'll send you a recovery link.
-                  </div>
-                  <div className="login-page_f_rbe_form">
-                    <input
-                      type="email"
-                      className="login-page_f_rbe_f_email-field"
-                      placeholder="|"
-                      name="cls-email"
-                    />
-                    <div className="login-page_f_rbe_f_feedback-bar">
-                      <div className="login-page_f_rbe_f_fb_recovery" />
-                    </div>
-                    <div className="login-page_f_rbe_f_i18n-submit-recovery-button">
-                      Recovery
-                    </div>
-                  </div>
+                <div
+                  className={classnames("login-page_f_fb_password", {
+                    color_rgb16300: this.state.errors.password
+                  })}
+                >
+                  {this.state.errors.password}
                 </div>
+              </div>
+              <div
+                className="login-page_f_i18n-forgot"
+                onClick={this.onForgotPassword}
+              >
+                forgot?
               </div>
             </div>
             <div className="login-page_f_submit-block">
-              <div className="login-page_f_i18n-submit-signin-button">Sign In</div>
+              <button
+                onClick={this.onSignin}
+                className="login-page_f_i18n-submit-signin-button"
+                id="signin-button"
+              >
+                Sign In
+              </button>
             </div>
           </div>
           <div className="login-page_f_to-signup-block">

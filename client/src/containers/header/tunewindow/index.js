@@ -10,7 +10,8 @@ export default class TuneWindow extends Component {
 
   render() {
     return (
-      <div className={"tune-window "/* + this.props.cssProps.display*/}>
+      <div className="tune-window">
+      {/* <div className={`tune-window ${this.props.cssProps.display}`}> */}
         <Scrollbar
           tag="div"
           ref={this.osRef}

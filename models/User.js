@@ -1,18 +1,14 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const Avatar = new Schema({
-  image: {
-    type: Buffer,
-    required: true
-  },
-  contentType: {
+const Username = new Schema({
+  name: {
     type: String,
-    required: true
-  },
-  encoding: {
-    type: String,
-    required: true
+    required: true,
+    unique: true,
+    trim: true,
+    min: 5,
+    max: 30
   },
   from: {
     type: Date,
@@ -20,7 +16,46 @@ const Avatar = new Schema({
   },
   by: {
     type: String,
-    required: true
+    default: "auto"
+  },
+  description: {
+    type: String,
+    default: "auto",
+    min: 4,
+    max: 256
+  }
+})
+
+const Avatar = new Schema({
+  image: {
+    type: new Schema({
+      buffer: {
+        type: Buffer,
+        required: true
+      },
+      contentType: {
+        type: String,
+        required: true
+      },
+      encoding: {
+        type: String,
+        required: true
+      }
+    })
+  },
+  from: {
+    type: Date,
+    default: Date.now
+  },
+  by: {
+    type: String,
+    default: "auto"
+  },
+  description: {
+    type: String,
+    default: "auto",
+    min: 4,
+    max: 256
   }
 });
 
@@ -37,39 +72,40 @@ const Permission = new Schema({
   },
   by: {
     type: String,
-    required: true
+    default: "auto"
+  },
+  description: {
+    type: String,
+    default: "auto",
+    min: 4,
+    max: 256
   }
 });
 
 const Frozen = new Schema({
+  to: {
+    type: Date
+  },
   from: {
     type: Date,
     default: Date.now
   },
-  to: {
-    type: Date,
-    required: true
-  },
   by: {
     type: String,
-    required: true
+    default: "auto"
   },
   description: {
     type: String,
-    required: true,
-    min: 3,
+    default: "auto",
+    min: 4,
     max: 256
   }
 });
 
 const UserSchema = new Schema({
   username: {
-    type: String,
-    required: true,
-    unique: true,
-    trim: true,
-    min: 3,
-    max: 30
+    type: Username,
+    required: true
   },
   email: {
     type: String,
@@ -83,7 +119,7 @@ const UserSchema = new Schema({
     type: String,
     required: true,
     trim: true,
-    min: 6,
+    min: 8,
     max: 50
   },
   avatar: {
@@ -92,8 +128,7 @@ const UserSchema = new Schema({
   permission: {
     type: Permission,
     default: {
-      role: "user",
-      by: "auto"
+      role: "user"
     }
   },
   frozen: {

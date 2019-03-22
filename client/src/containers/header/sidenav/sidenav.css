@@ -105,75 +105,6 @@
     width: 240px;
 }
 
-/* .side-nav_m_signedin-block {
-    padding: 8px 24px;
-    border-bottom: 1px solid #494949;
-}
-
-.side-nav_m_sb_user {
-    height: 40px;
-}
-
-.side-nav_m_sb_u_user-button {
-    display: inline-block;
-    vertical-align: middle;
-    padding: 8px 0;
-    margin-right: 8px;
-    width: 40px;
-    height: 100%;
-    border-radius: 50%;
-    text-align: center;
-    cursor: pointer;
-}
-
-.side-nav_m_sb_u_dn-block {
-    display: inline-block;
-    vertical-align: middle;
-}
-
-.side-nav_m_sb_u_db_i18n-username {
-    font-size: 12.8px;
-}
-
-.side-nav_m_sb_u_db_server-data-username {
-    margin-top: 3px;
-    padding: 2px 8px;
-    color: rgb(52, 140, 255);
-    background-color: rgba(149, 149, 149, 0.1);
-    border-radius: 14px;
-    font-weight: bold;
-    max-width: 151px;
-}
-
-.side-nav_m_sb_alert-items {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    height: 40px;
-}
-
-.side-nav_m_sb_ai_alert-item {
-    display: inline-block;
-    height: 100%;
-    width: 40px;
-}
-
-.side-nav_m_sb_ai_ai_message-button,
-.side-nav_m_sb_ai_ai_notification-button {
-    padding: 8px 0;
-    border-radius: 50%;
-    text-align: center;
-    cursor: pointer;
-    width: 100%;
-    height: 100%;
-}
-
-.side-nav_m_sb_u_ub_icon,
-.side-nav_m_sb_ai_ai_mb_icon,
-.side-nav_m_sb_ai_ai_nb_icon {
-
-} */
-
 .side-nav_m_main-nav,
 .side-nav_m_sup-nav {
     
@@ -184,7 +115,7 @@
     list-style: none;
     margin: 0;
     padding: 8px  0;
-    border-bottom: 1px solid #494949;
+    border-bottom: 1px solid rgb(77, 77, 77);
 }
 
 .side-nav_m_mn_i_item,
@@ -192,9 +123,11 @@
     height: 40px;
 }
 
-.side-nav_m_mn_i_item a,
-.side-nav_m_sn_i_item a {
+.side-nav_m_mn_i_i_link,
+.side-nav_m_sn_i_i_link {
     display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
     text-decoration: none;
     color: #ccc;
     padding: 0 24px;
@@ -265,12 +198,6 @@
 }
 
 /* effects start */
-
-/* .side-nav_m_sb_u_ub_icon:hover,
-.side-nav_m_sb_ai_ai_mb_icon:hover,
-.side-nav_m_sb_ai_ai_nb_icon:hover {
-    fill: rgb(204, 204, 204);
-} */
 
 .side-nav_m_mn_i_item:hover,
 .side-nav_m_sn_i_item:hover {

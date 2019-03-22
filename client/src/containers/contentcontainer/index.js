@@ -13,8 +13,10 @@ export default class ContentContainer extends Component {
       <Scrollbar
         tag="div"
         ref={this.osRef}
-        className={"content-container " + this.props.cssProps.left + " " + this.props.cssProps.width}
-        options={{}}
+        className="content-container"
+        options={{
+          overflowBehavior: { x: "hidden", y: "scroll" }
+        }}
       >
         <div className="content-children">{this.props.children}</div>
       </Scrollbar>

@@ -111,9 +111,14 @@ export default class Register extends Component {
       password: this.state.password
     };
     axios
-      .post("/api/register", userData)
-      .then(res => console.log(res.data))
-      .catch(err => this.setState({ errors: err.response.data }));
+      .post("/api/register", userData
+      )
+      .then(res => {
+        console.log(res.data)
+      })
+      .catch(err => {
+        this.setState({ errors: err.response.data })
+      });
   };
 
   componentDidUpdate() {
@@ -133,6 +138,7 @@ export default class Register extends Component {
   render() {
     return (
       <div className="register-container noselect">
+      <div className="processBar" />
         <div className="register-page">
           <div className="register-page_form">
             <label

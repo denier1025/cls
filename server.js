@@ -9,7 +9,11 @@ mongoose
   .catch(err => console.log(`Error connecting to MongoDB: ${err}`));
 
 /* ### Startpoint for import and creating an express server ### */
-const app = require("express")();
+const express = require("express");
+const app = express();
+app.disable('x-powered-by');
+
+app.use(express.static('public'))
 
 const bodyParser = require("body-parser");
 // app.use(bodyParser.urlencoded({ extended: false }));

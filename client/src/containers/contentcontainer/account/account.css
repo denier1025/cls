@@ -1,3 +1,81 @@
 .account {
-    padding: 14.4px 0;
 }
+
+.account-nav {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  text-align: center;
+}
+
+.account-nav_items {
+  list-style: none;
+  margin: 0;
+  padding: 8px 0;
+}
+
+.account-nav_item {
+  display: inline-block;
+  margin: 2px;
+}
+
+.account-nav_item a {
+  display: flex;
+  text-decoration: none;
+  background-color: rgb(30, 30, 30);
+  color: rgb(163, 163, 163);
+  padding: 0 8px;
+  height: 40px;
+}
+
+.account-nav_i_lock-icon-cover,
+.account-nav_i_security-icon-cover,
+.account-nav_i_loupe-icon-cover,
+.account-nav_i_post-comment-icon-cover,
+.account-nav_i_letters-icon-cover,
+.account-nav_i_notify-icon-cover {
+  display: inline-block;
+  height: 24px;
+  margin: auto 0;
+  margin-right: 8px;
+}
+
+.account-nav_i_lic_lock-icon,
+.account-nav_i_sic_security-icon,
+.account-nav_i_lic_loupe-icon,
+.account-nav_i_pcic_post-comment-icon,
+.account-nav_i_lic_letters-icon,
+.account-nav_i_nic_notify-icon {
+}
+
+.account-nav_i_i18n-private-data,
+.account-nav_i_i18n-security,
+.account-nav_i_i18n-entries-actions,
+.account-nav_i_i18n-activity,
+.account-nav_i_i18n-messages,
+.account-nav_i_i18n-notifications {
+  display: inline-block;
+  margin: auto 0;
+}
+
+.account-body {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.public-data {
+}
+
+/* effects start */
+
+.account-nav_item a:hover {
+  background-color: rgb(37, 37, 37);
+}
+
+.account-nav_item a:active {
+  color: #ccc;
+}
+
+/* effects end */

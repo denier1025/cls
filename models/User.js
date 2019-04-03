@@ -102,6 +102,21 @@ const Frozen = new Schema({
   }
 });
 
+const Secret = new Schema({
+  question: {
+    type: String,
+    required: true
+  },
+  answer: {
+    type: String,
+    required: true
+  },
+  from: {
+    type: Date,
+    default: Date.now
+  }
+})
+
 const UserSchema = new Schema({
   username: {
     type: Username,
@@ -124,6 +139,9 @@ const UserSchema = new Schema({
   },
   avatar: {
     type: Avatar
+  },
+  secret: {
+    type: Secret
   },
   permission: {
     type: Permission,

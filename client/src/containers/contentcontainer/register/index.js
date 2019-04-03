@@ -165,9 +165,9 @@ export default class Register extends Component {
                 className="register-page_f_username-field"
                 name="username"
                 value={this.state.username.name}
-                onChange={e => this.onInputChange(e)}
-                onFocus={e => this.onInputFocus(e)}
-                onBlur={e => this.onInputBlur(e)}
+                onChange={this.onInputChange}
+                onFocus={this.onInputFocus}
+                onBlur={this.onInputBlur}
               />
               <button
                 className="register-check-button register-page_f_i18n-username-check-button"
@@ -210,9 +210,9 @@ export default class Register extends Component {
                 className="register-page_f_email-field"
                 name="email"
                 value={this.state.email}
-                onChange={e => this.onInputChange(e)}
-                onFocus={e => this.onInputFocus(e)}
-                onBlur={e => this.onInputBlur(e)}
+                onChange={this.onInputChange}
+                onFocus={this.onInputFocus}
+                onBlur={this.onInputBlur}
               />
             </div>
             <div className="register-page_f_feedback-bar">
@@ -247,9 +247,9 @@ export default class Register extends Component {
                 className="register-page_f_password-field"
                 name="password"
                 value={this.state.password}
-                onChange={e => this.onInputChange(e)}
-                onFocus={e => this.onInputFocus(e)}
-                onBlur={e => this.onInputBlur(e)}
+                onChange={this.onInputChange}
+                onFocus={this.onInputFocus}
+                onBlur={this.onInputBlur}
               />
               <div
                 className="register-page_f_eye-button"

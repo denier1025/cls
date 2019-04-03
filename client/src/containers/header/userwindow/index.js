@@ -48,16 +48,28 @@ class UserWindow extends Component {
                 </Link>
               </li>
               <li className="user-window_c_item">
-                <Link to="#" className="user-window_c_i_link">
-                  <div className="user-window_c_i18n-account text-dimension">
-                    Text Text Text Text Text
+                <Link to="/postlab" className="user-window_c_i_link">
+                  <div className="user-window_c_post-icon-cover">
+                    <svg
+                      height="24px"
+                      width="24px"
+                      viewBox="-86 -85 510 510"
+                      fill="rgb(149, 149, 149)"
+                      className="user-window_c_post-icon"
+                    >
+                      <path d="m267 328.058594 60.441406-62.058594h-60.441406zm0 0" />
+                      <path d="m0 340h251v-82.132812c0-4.417969 4.0625-7.867188 8.480469-7.867188h78.519531v-250h-338zm53.320312-265h132.816407c4.417969 0 8 3.582031 8 8s-3.582031 8-8 8h-132.816407c-4.417968 0-8-3.582031-8-8s3.582032-8 8-8zm0 64h225.199219c4.417969 0 8 3.582031 8 8s-3.582031 8-8 8h-225.199219c-4.417968 0-8-3.582031-8-8s3.582032-8 8-8zm0 62h225.199219c4.417969 0 8 3.582031 8 8s-3.582031 8-8 8h-225.199219c-4.417968 0-8-3.582031-8-8s3.582032-8 8-8zm0 0" />
+                    </svg>
+                  </div>
+                  <div className="user-window_c_i18n-postlab text-dimension">
+                    Post Lab
                   </div>
                 </Link>
               </li>
               <li className="user-window_c_item">
                 <Link to="#" className="user-window_c_i_link">
                   <div className="user-window_c_i18n-account text-dimension">
-                    Text
+                    Text Text Text Text Text Text
                   </div>
                 </Link>
               </li>

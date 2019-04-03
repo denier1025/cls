@@ -29,6 +29,7 @@ require("./models/history/user/parts/AvatarHistory");
 require("./models/history/user/parts/EmailHistory");
 require("./models/history/user/parts/FrozenHistory");
 require("./models/history/user/parts/PasswordHistory");
+require("./models/history/user/parts/SecretHistory");
 require("./models/history/user/parts/PermissionHistory");
 require("./models/history/user/parts/UsernameHistory");
 // require("./models/history/post/PostHistory");

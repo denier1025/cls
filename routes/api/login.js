@@ -33,12 +33,7 @@ router.post("/", (req, res) => {
         bcryptjs.compare(req.body.password, user.password).then(isMatch => {
           if (isMatch) {
             const payload = {
-              id: user.id,
-              username: user.username,
-              avatar: user.avatar,
-              permission: {
-                role: user.permission.role
-              }
+              id: user.id
             };
 
             if (user.frozen && user.frozen.to) {

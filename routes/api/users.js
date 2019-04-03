@@ -11,6 +11,7 @@ const AvatarHistory = mongoose.model("AvatarHistory");
 const PermissionHistory = mongoose.model("PermissionHistory");
 const EmailHistory = mongoose.model("EmailHistory");
 const PasswordHistory = mongoose.model("PasswordHistory");
+const SecretHistory = mongoose.model("SecretHistory");
 
 const validateUserInput = require("../validation/user");
 const isEmpty = require("../utils/isEmpty");
@@ -35,10 +36,7 @@ router.get(
           res.json({
             id: user.id,
             username: user.username,
-            email: user.email,
-            avatar: {
-              image: user.avatar.image
-            },
+            avatar: user.avatar,
             permission: {
               role: user.permission.role
             }
@@ -67,12 +65,14 @@ router.get(
 
 // @role   all(user, mod, supermod, admin)
 // @route  PUT api/users/current
-// @desc   Modify one of the current fields (username/email/password/avatar)
+// @desc   Modify one of the current fields (username/email/password/avatar/secret)
 // @access Private
 router.put(
   "/current",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
+    const success = {}
+
     const { errors, isValid } = validateUserInput(req.body);
 
     if (!isValid) {
@@ -98,7 +98,8 @@ router.put(
             )
               .then(user => {
                 //TODO: send an email for changing
-                res.status(204).json();
+                success.ok = "Updated.";
+                res.json(success);
               })
               .catch(err => {
                 if (err.name === "MongoError") {
@@ -154,12 +155,7 @@ router.put(
             req.body.newPassword &&
             Object.keys(req.body).length === 2
           ) {
-            bcryptjs.genSalt(10).then(salt => {
-              bcryptjs.hash(req.body.newPassword, salt).then(hash => {
-                req.body.newPassword = hash;
-              });
-            });
-            if (req.body.newPassword === user.password) {
+            if (req.body.password === req.body.newPassword) {
               errors.badRequest = "The same password.";
               return res.status(400).json(errors);
             }
@@ -174,7 +170,16 @@ router.put(
                 })
                   .save()
                   .then(() => {
-                    updateUser({ password: req.body.newPassword });
+                    bcryptjs.genSalt(10).then(salt => {
+                      bcryptjs
+                        .hash(req.body.newPassword, salt)
+                        .then(hash => {
+                          req.body.newPassword = hash;
+                        })
+                        .then(() => {
+                          updateUser({ password: req.body.newPassword });
+                        });
+                    });
                   });
               } else {
                 errors.badRequest = "Password doesn't match.";
@@ -186,8 +191,7 @@ router.put(
               req.body.avatar.image &&
               user.avatar &&
               user.avatar.image &&
-              req.body.avatar.image.buffer ===
-                user.avatar.image.buffer
+              req.body.avatar.image.buffer === user.avatar.image.buffer
             ) {
               errors.badRequest = "The same avatar.";
               return res.status(400).json(errors);
@@ -212,6 +216,65 @@ router.put(
               res.status(400).json(errors);
             } else {
               updateUser(req.body);
+            }
+          } else if (req.body.newSecret) {
+            if (user.secret) {
+              if (req.body.secret && Object.keys(req.body).length === 2) {
+                if (req.body.secret.answer === req.body.newSecret.answer) {
+                  errors.badRequest = "The same secret.";
+                  return res.status(400).json(errors);
+                }
+                bcryptjs
+                  .compare(req.body.secret.answer, user.secret.answer)
+                  .then(isMatch => {
+                    console.log(isMatch)
+                    if (isMatch) {
+                      new SecretHistory({
+                        by: req.user.id,
+                        secret: {
+                          userId: user.id.toString(),
+                          question: user.secret.question,
+                          answer: user.secret.answer
+                        }
+                      })
+                        .save()
+                        .then(() => {
+                          bcryptjs.genSalt(10)
+                          .then(salt => {
+                            bcryptjs.hash(req.body.newSecret.answer, salt)
+                              .then(hash => {
+                                req.body.newSecret.answer = hash;
+                              })
+                              .then(() => {
+                                updateUser({ secret: req.body.newSecret });
+                              });
+                          });
+                        });
+                    } else {
+                      errors.badRequest = "Secret doesn't match.";
+                      res.status(400).json(errors);
+                    }
+                  });
+              } else {
+                errors.badRequest = "Current secret answer is required.";
+                res.status(400).json(errors);
+              }
+            } else {
+              if (Object.keys(req.body).length === 1) {
+                bcryptjs.genSalt(10).then(salt => {
+                  bcryptjs
+                    .hash(req.body.newSecret.answer, salt)
+                    .then(hash => {
+                      req.body.newSecret.answer = hash;
+                    })
+                    .then(() => {
+                      updateUser({ secret: req.body.newSecret });
+                    });
+                });
+              } else {
+                errors.badRequest = "Incorrect data.";
+                res.status(400).json(errors);
+              }
             }
           } else {
             errors.badRequest = "Incorrect data.";
@@ -312,6 +375,8 @@ router.put(
   "/:id",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
+    const success = {};
+
     const { errors, isValid } = validateUserInput(req.body);
 
     if (!isValid) {
@@ -331,170 +396,168 @@ router.put(
       return res.status(403).json(errors);
     }
 
-      User.findById(req.params.id)
-        .then(user => {
-          if (isEmpty(user)) {
-            errors.notFound = "No user with that id.";
-            res.status(404).json(errors);
-          } else if (
-            Roles.reverseProps[req.user.permission.role] &&
-            Roles.reverseProps[req.user.permission.role] <=
-              Roles.reverseProps[user.permission.role]
+    User.findById(req.params.id)
+      .then(user => {
+        if (isEmpty(user)) {
+          errors.notFound = "No user with that id.";
+          res.status(404).json(errors);
+        } else if (
+          Roles.reverseProps[req.user.permission.role] &&
+          Roles.reverseProps[req.user.permission.role] <=
+            Roles.reverseProps[user.permission.role]
+        ) {
+          errors.forbidden = "Not enough permissions.";
+          res.status(403).json(errors);
+        } else {
+          const updateUser = userData => {
+            User.findByIdAndUpdate(
+              req.params.id,
+              {
+                $set: {
+                  ...userData
+                }
+              },
+              { new: true }
+            )
+              .then(user => {
+                //TODO: send an email for changing
+                success.ok = "Updated.";
+                res.json(success);
+              })
+              .catch(err => {
+                if (err.name === "MongoError") {
+                  errors.conflict = "Not unique.";
+                  res.status(409).json(errors);
+                }
+              });
+          };
+          if (
+            req.body.username &&
+            !req.body.username.name &&
+            Object.keys(req.body).length === 1
           ) {
-            errors.forbidden = "Not enough permissions.";
-            res.status(403).json(errors);
-          } else {
-            const updateUser = userData => {
-              User.findByIdAndUpdate(
-                req.params.id,
-                {
-                  $set: {
-                    ...userData
-                  }
-                },
-                { new: true }
-              )
-                .then(user => {
-                  //TODO: send an email for changing
-                  res.status(204).json();
-                })
-                .catch(err => {
-                  if (err.name === "MongoError") {
-                    errors.conflict = "Not unique.";
-                    res.status(409).json(errors);
-                  }
-                });
-            };
-            if (
-              req.body.username && !req.body.username.name &&
-              Object.keys(req.body).length === 1
-            ) {
-              req.body.username.name =
-                "Noname" + base58.encode(new Buffer.from(sha256(user.id)));
-              new UsernameHistory({
+            req.body.username.name =
+              "Noname" + base58.encode(new Buffer.from(sha256(user.id)));
+            new UsernameHistory({
+              by: req.user.id,
+              username: {
+                userId: user.id.toString(),
+                name: user.username.name,
+                by: user.username.by,
+                description: user.username.description
+              }
+            })
+              .save()
+              .then(() => {
+                updateUser(req.body);
+              });
+          } else if (
+            req.body.avatar &&
+            !req.body.avatar.image &&
+            Object.keys(req.body).length === 1
+          ) {
+            if (user.avatar) {
+              new AvatarHistory({
                 by: req.user.id,
-                username: {
+                avatar: {
                   userId: user.id.toString(),
-                  name: user.username.name,
-                  by: user.username.by,
-                  description: user.username.description
+                  image: user.avatar.image,
+                  from: user.avatar.from,
+                  by: user.avatar.by,
+                  description: user.avatar.description
                 }
               })
                 .save()
                 .then(() => {
                   updateUser(req.body);
                 });
-            } else if (
-              req.body.avatar &&
-              !req.body.avatar.image &&
-              Object.keys(req.body).length === 1
-            ) {
-              if (user.avatar) {
-                new AvatarHistory({
-                  by: req.user.id,
-                  avatar: {
-                    userId: user.id.toString(),
-                    image: user.avatar.image,
-                    from: user.avatar.from,
-                    by: user.avatar.by,
-                    description: user.avatar.description
-                  }
-                })
-                  .save()
-                  .then(() => {
-                    updateUser(req.body);
-                  });
-              } else {
-                errors.badRequest = "Nothing to change. Avatar isn't setup.";
-                res.status(400).json(errors);
-              }
-            } else if (
-              req.body.frozen &&
-              Object.keys(req.body).length === 1
-            ) {
-              if (
-                req.body.frozen.to &&
-                user.frozen.to &&
-                user.frozen.to > Date.now()
-              ) {
-                errors.forbidden = "This user already in freeze.";
-                res.status(403).json(errors);
-              } else if (
-                (user.frozen.to && user.frozen.to < Date.now()) ||
-                (!req.body.frozen.to &&
-                  user.frozen.to &&
-                  user.frozen.to > Date.now())
-              ) {
-                new FrozenHistory({
-                  by: req.user.id,
-                  frozen: {
-                    userId: user.id.toString(),
-                    from: user.frozen.from,
-                    to: user.frozen.to,
-                    by: user.frozen.by,
-                    description: user.frozen.description
-                  }
-                })
-                  .save()
-                  .then(() => {
-                    updateUser(req.body);
-                  });
-              } else if (!req.body.frozen.to && !user.frozen.to) {
-                errors.badRequest =
-                  "Nothing to change. This user is not in freeze.";
-                res.status(400).json(errors);
-              } else {
-                updateUser(req.body);
-              }
-            } else if (
-              req.body.permission &&
-              Object.keys(req.body).length === 1
-            ) {
-              if (
-                [
-                  Roles.props[Roles.SUPERMOD],
-                  Roles.props[Roles.ADMIN]
-                ].includes(req.user.permission.role)
-              ) {
-                if (req.body.permission.role === user.permission.role) {
-                  errors.badRequest = "The same role.";
-                  return res.status(400).json(errors);
-                }
-                new PermissionHistory({
-                  by: req.user.id,
-                  permission: {
-                    userId: user.id.toString(),
-                    role: user.permission.role,
-                    from: user.permission.from,
-                    by: user.permission.by,
-                    description: user.permission.description
-                  }
-                })
-                  .save()
-                  .then(() => {
-                    updateUser(req.body);
-                  });
-              } else {
-                errors.forbidden = "Not enough permissions.";
-                res.status(403).json(errors);
-              }
             } else {
-              errors.badRequest = "Incorrect data.";
+              errors.badRequest = "Nothing to change. Avatar isn't setup.";
               res.status(400).json(errors);
             }
-          }
-        })
-        .catch(err => {
-          if (err.name === "CastError") {
-            errors.notFound = "No user with that id.";
-            res.status(404).json(errors);
+          } else if (req.body.frozen && Object.keys(req.body).length === 1) {
+            if (
+              req.body.frozen.to &&
+              user.frozen.to &&
+              user.frozen.to > Date.now()
+            ) {
+              errors.forbidden = "This user already in freeze.";
+              res.status(403).json(errors);
+            } else if (
+              (user.frozen.to && user.frozen.to < Date.now()) ||
+              (!req.body.frozen.to &&
+                user.frozen.to &&
+                user.frozen.to > Date.now())
+            ) {
+              new FrozenHistory({
+                by: req.user.id,
+                frozen: {
+                  userId: user.id.toString(),
+                  from: user.frozen.from,
+                  to: user.frozen.to,
+                  by: user.frozen.by,
+                  description: user.frozen.description
+                }
+              })
+                .save()
+                .then(() => {
+                  updateUser(req.body);
+                });
+            } else if (!req.body.frozen.to && !user.frozen.to) {
+              errors.badRequest =
+                "Nothing to change. This user is not in freeze.";
+              res.status(400).json(errors);
+            } else {
+              updateUser(req.body);
+            }
+          } else if (
+            req.body.permission &&
+            Object.keys(req.body).length === 1
+          ) {
+            if (
+              [Roles.props[Roles.SUPERMOD], Roles.props[Roles.ADMIN]].includes(
+                req.user.permission.role
+              )
+            ) {
+              if (req.body.permission.role === user.permission.role) {
+                errors.badRequest = "The same role.";
+                return res.status(400).json(errors);
+              }
+              new PermissionHistory({
+                by: req.user.id,
+                permission: {
+                  userId: user.id.toString(),
+                  role: user.permission.role,
+                  from: user.permission.from,
+                  by: user.permission.by,
+                  description: user.permission.description
+                }
+              })
+                .save()
+                .then(() => {
+                  updateUser(req.body);
+                });
+            } else {
+              errors.forbidden = "Not enough permissions.";
+              res.status(403).json(errors);
+            }
           } else {
-            errors.internalServerError = `Internal server error: ${err.name} ${
-              err.message
-            }.`;
-            res.status(500).json(errors);
+            errors.badRequest = "Incorrect data.";
+            res.status(400).json(errors);
           }
-        });
+        }
+      })
+      .catch(err => {
+        if (err.name === "CastError") {
+          errors.notFound = "No user with that id.";
+          res.status(404).json(errors);
+        } else {
+          errors.internalServerError = `Internal server error: ${err.name} ${
+            err.message
+          }.`;
+          res.status(500).json(errors);
+        }
+      });
   }
 );
 

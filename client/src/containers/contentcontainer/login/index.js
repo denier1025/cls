@@ -157,9 +157,9 @@ export default class Login extends Component {
                   className="login-container_rbe_f_email-field"
                   name="remail"
                   value={this.state.remail}
-                  onChange={e => this.onInputChange(e)}
-                  onFocus={e => this.onInputFocus(e)}
-                  onBlur={e => this.onInputBlur(e)}
+                  onChange={this.onInputChange}
+                  onFocus={this.onInputFocus}
+                  onBlur={this.onInputBlur}
                 />
               </div>
               <div className="login-container_rbe_f_feedback-bar">
@@ -207,9 +207,9 @@ export default class Login extends Component {
                 className="login-page_f_email-field"
                 name="email"
                 value={this.state.email}
-                onChange={e => this.onInputChange(e)}
-                onFocus={e => this.onInputFocus(e)}
-                onBlur={e => this.onInputBlur(e)}
+                onChange={this.onInputChange}
+                onFocus={this.onInputFocus}
+                onBlur={this.onInputBlur}
               />
             </div>
             <div className="login-page_f_feedback-bar">
@@ -244,9 +244,9 @@ export default class Login extends Component {
                 className="login-page_f_password-field"
                 name="password"
                 value={this.state.password}
-                onChange={e => this.onInputChange(e)}
-                onFocus={e => this.onInputFocus(e)}
-                onBlur={e => this.onInputBlur(e)}
+                onChange={this.onInputChange}
+                onFocus={this.onInputFocus}
+                onBlur={this.onInputBlur}
               />
               <div
                 className="login-page_f_eye-button"

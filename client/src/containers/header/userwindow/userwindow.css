@@ -40,16 +40,19 @@
   height: 100%;
 }
 
-.user-window_c_account-icon-cover {
+.user-window_c_account-icon-cover,
+.user-window_c_post-icon-cover {
   height: 24px;
   margin: auto 0;
   margin-right: 24px;
 }
 
-.user-window_c_account-icon {
+.user-window_c_account-icon,
+.user-window_c_post-icon {
 }
 
-.user-window_c_i18n-account {
+.user-window_c_i18n-account,
+.user-window_c_i18n-postlab {
   margin: auto 0;
 }
 

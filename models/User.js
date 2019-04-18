@@ -7,7 +7,7 @@ const Username = new Schema({
     required: true,
     unique: true,
     trim: true,
-    min: 5,
+    min: 4,
     max: 30
   },
   from: {
@@ -20,11 +20,12 @@ const Username = new Schema({
   },
   description: {
     type: String,
+    trim: true,
     default: "auto",
     min: 4,
     max: 256
   }
-})
+});
 
 const Avatar = new Schema({
   image: {
@@ -53,6 +54,7 @@ const Avatar = new Schema({
   },
   description: {
     type: String,
+    trim: true,
     default: "auto",
     min: 4,
     max: 256
@@ -76,6 +78,7 @@ const Permission = new Schema({
   },
   description: {
     type: String,
+    trim: true,
     default: "auto",
     min: 4,
     max: 256
@@ -96,6 +99,7 @@ const Frozen = new Schema({
   },
   description: {
     type: String,
+    trim: true,
     default: "auto",
     min: 4,
     max: 256
@@ -105,17 +109,23 @@ const Frozen = new Schema({
 const Secret = new Schema({
   question: {
     type: String,
-    required: true
+    trim: true,
+    required: true,
+    min: 4,
+    max: 256
   },
   answer: {
     type: String,
-    required: true
+    trim: true,
+    required: true,
+    min: 4,
+    max: 256
   },
   from: {
     type: Date,
     default: Date.now
   }
-})
+});
 
 const UserSchema = new Schema({
   username: {

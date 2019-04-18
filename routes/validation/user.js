@@ -21,8 +21,8 @@ module.exports = function validateUserInput(data) {
     // }
   
     // if (!Validator.isEmpty(data.username)) {
-    //     if (!Validator.isLength(data.username, { min: 5, max: 30 })) {
-    //         errors.username = "Username must be between 5 and 30 characters";
+    //     if (!Validator.isLength(data.username, { min: 4, max: 30 })) {
+    //         errors.username = "Username must be between 4 and 30 characters";
     //     }
     // }
   

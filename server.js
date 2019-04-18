@@ -69,7 +69,7 @@ const passport = require("passport");
 app.use(passport.initialize());
 
 /* ### JWT Passport strategy ### */
-require("./routes/utils/passport-jwt")(passport);
+require("./routes/middleware/passport-jwt")(passport);
 
 /* ### API Routes ### */
 app.use("/api/register", require("./routes/api/register"));
